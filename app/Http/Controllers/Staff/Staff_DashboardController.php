@@ -8,6 +8,7 @@ use App\Models\Workflow;
 use App\Models\PrivateMessage;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Profile;
+//use Illuminate\Support\Facades\Auth;
 
 class Staff_DashboardController extends Controller
 {
@@ -15,6 +16,7 @@ class Staff_DashboardController extends Controller
     public function __construct()
     {
         // check if the user profile has been filled
+        //dd(Auth::check());
        
     }
 

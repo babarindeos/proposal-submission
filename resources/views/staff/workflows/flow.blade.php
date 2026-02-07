@@ -323,7 +323,7 @@
                                                                                                                                        
                                                                 </div>
                                                                 <div class="flex flex-col py-2 w-full">
-                                                                    <a class="font-bold hover:underline" href="{{ route('staff.profile.user_profile', ['fileno'=>$contributor->user->staff->fileno]) }}">
+                                                                    <a class="font-bold hover:underline" href="{{ route('staff.profile.email_user_profile', ['email'=>$contributor->user->email]) }}">
                                                                         {{ $contributor->user->staff->surname }}  {{ $contributor->user->staff->firstname }}
                                                                     </a>
                                                                     {{-- <div>{{ $contributor->user->staff->segment->name }}  ({{ $contributor->user->staff->department->department_code }})</div> --}}

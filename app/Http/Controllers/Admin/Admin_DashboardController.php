@@ -9,6 +9,7 @@ use App\Models\Staff;
 use App\Models\User;
 use App\Models\Workflow;
 use App\Models\Department;
+use App\Models\Office;
 use Illuminate\Support\Facades\DB;
 
 class Admin_DashboardController extends Controller
@@ -21,19 +22,20 @@ class Admin_DashboardController extends Controller
         $staff_count = Staff::count();
         $workflows_count = Workflow::count();
         $departments_count = Department::count();
+        $offices_count = Office::count();
 
         // directorate documents
-        $segment_documents = DB::table("documents")
+        /*  $segment_documents = DB::table("documents")
                                     ->join("users", "documents.uploader", "users.id")
                                     ->join("staff", "users.id", "staff.user_id")
                                     ->join("segments", "segments.id", "staff.segment_id")
                                     ->select("segments.name", DB::raw("COUNT(documents.id) as document_count"))->groupBy("users.id")->get();
-
+        */
         
         // Staff in Organs
-        $staff_segments = DB::table("segments")
+        /* $staff_segments = DB::table("segments")
                           ->join("staff", "staff.segment_id", "=", "segments.id")
-                          ->select("segments.name", DB::raw("COUNT(staff.id) as staff_count"))->groupBy("segments.name")->get();
+                          ->select("segments.name", DB::raw("COUNT(staff.id) as staff_count"))->groupBy("segments.name")->get(); */
         
         
 
@@ -150,45 +152,15 @@ class Admin_DashboardController extends Controller
     
 
 
-       // Segment Document Chart Data
-       $segment_documents_chart_data = [];
-       $item = ['Organs', 'Documents'];
-       array_push($segment_documents_chart_data, $item);
-
-       foreach($segment_documents as $sd)
-       {
-            $item = [];
-            $item[0] = $sd->name;
-            $item[1] = intval($sd->document_count);
-            array_push($segment_documents_chart_data, $item);
-       }
-
        
-       // Segment Staff Chart Data
-       $segment_staff_chart_data = [];
-       $item = ['Organs', 'Staff'];
-       array_push($segment_staff_chart_data, $item);
-
-       foreach($staff_segments as $ss)
-       {
-            $item = [];
-            $item[0] = $ss->name;
-            $item[1] = intval($ss->staff_count);
-            array_push($segment_staff_chart_data, $item);
-       }
-
-       
-
        
 
         return view('admin.dashboard')->with([
             "documents_count" => $documents_count,
             "users_count" => $users_count,
-            "staff_count" =>$staff_count,
+            "staff_count" => $staff_count,
             "workflows_count" => $workflows_count,
-            "departments_count" => $departments_count,
-            "segment_documents_chart_data" => $segment_documents_chart_data,
-            "segment_staff_chart_data" => $segment_staff_chart_data,
+            "departments_count" => $departments_count
         ]);
 
     }

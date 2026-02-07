@@ -17,7 +17,7 @@
                     <!-- left panel //-->
                     <div class="flex flex-col w-full md:w-3/5 border border-1 rounded-md py-2 px-4">
                             <div class="border-b border-1 py-2">
-                                    <div class="font-semibold">
+                                    <div class="font-semibold text-lg">
                                         {{ $document->title}}
                                     </div>
                                     <div class="flex flex-col md:flex-row border border-0 justify-between md:items-center ">
@@ -57,7 +57,7 @@
                                                
 
                                                 <!-- workflow start or continue //-->
-                                                <div class="flex flex-col md:flex-row py-4">
+                                                <div class="flex flex-col md:flex-row py-4 border">
 
                                                     <!-- forward to contributor //-->
                                                     <div class="flex flex-col flex-1">
@@ -69,11 +69,11 @@
                                                                 <!-- Contributor panel //-->
                                                                 <div class="flex flex-col md:flex-row w-full border border-0">
                                                                     <!-- Select List to Contributors //-->
-                                                                    <div class="flex flex-col border-red-900 w-[97%] md:w-[70%] py-2 mr-4">
+                                                                    <div class="flex flex-col border-red-900 w-[97%] md:w-[70%] py-2 border-0">
                                                                             
                                                                             
                                                                             <input type="text" name="staffno" class="border border-1 border-gray-400 bg-gray-50
-                                                                                                                    w-[90%] p-1 rounded-md 
+                                                                                                                    w-[100%] p-2 md:rounded-l-md
                                                                                                                     focus:outline-none
                                                                                                                     focus:border-blue-500 
                                                                                                                     focus:ring
@@ -99,7 +99,7 @@
                                                                     <!-- search button //-->
                                                                     <div class="flex border border-0 md:justify-center md:items-center">
                                                                         <button type="submit" class="border border-1
-                                                                            rounded-md py-2 px-4 text-xs text-green-500 border-green-500 hover:bg-green-500 hover:text-white font-semibold">
+                                                                            md:rounded-r-md py-3 px-4 text-xs text-green-500 border-green-500 hover:bg-green-500 hover:text-white font-semibold">
                                                                             Search
                                                                         </button>
                                                                     </div>
@@ -115,7 +115,7 @@
 
 
                                                                 <!-- submit button //-->
-                                                                <div class="flex py-6">
+                                                                <div class="flex py-1">
                                                                     @if (session('error'))
                                                                         @if (session('status')=='fail')
                                                                                 <span class="flex flex-col w-[80%] md:w-[60%] py-4 px-2 my-2 bg-red-50 rounded text-red-800 font-medium" 

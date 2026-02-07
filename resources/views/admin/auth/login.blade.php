@@ -22,7 +22,7 @@
 
                         <div class="flex flex-col w-[80%] md:w-[60%] py-4 mt-4 font-serif" >
                             <h2 class="font-semibold text-xl py-1" >Sign In</h2>
-                            Administrators Only 
+                            <div class='text-3xl text-gray-500'>Administrative Center </div>
                             
                         </div>
 
@@ -58,7 +58,7 @@
                                                                     focus:outline-none
                                                                     focus:border-blue-500 
                                                                     focus:ring
-                                                                    focus:ring-blue-100" placeholder="Email"
+                                                                    focus:ring-blue-100" placeholder="Username"
                                                                     
                                                                     style="font-family:'Lato';font-size:16px;font-weight:500;"
                                                                     

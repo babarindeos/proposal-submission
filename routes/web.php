@@ -27,6 +27,8 @@ use App\Http\Controllers\Admin\Admin_BranchController;
 use App\Http\Controllers\Admin\Admin_SectionController;
 use App\Http\Controllers\Admin\Admin_UnitController;
 
+use App\Http\Controllers\Admin\Admin_OfficeController;
+
 use App\Http\Controllers\Staff\Staff_AuthController;
 use App\Http\Controllers\Staff\Staff_DashboardController;
 use App\Http\Controllers\Staff\Staff_DocumentController;
@@ -43,6 +45,8 @@ use App\Http\Controllers\Staff\Staff_AdminDocumentController;
 
 use App\Http\Controllers\PDFController;
 
+use App\Http\Controllers\Guest\Guest_WelcomeController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -55,20 +59,38 @@ use App\Http\Controllers\PDFController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+
+// Route::get('/', function () {               
+//             return view('welcome');
+// })->name('welcome');
+
+ 
+
+Route::get('/force_logout', [Guest_WelcomeController::class, 'force_logout'])->name('force_logout');
+Route::get('/check_auth', [Guest_WelcomeController::class, 'check_auth'])->name('check_auth');
 
 
-Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
-
-
-Route::post('/', [Staff_AuthController::class, 'login'])->name('staff.auth.login');
 
 
 
-Route::get('/admin', [Admin_AuthController::class, 'index'])->name('admin.auth.index');
-Route::post('/admin', [Admin_AuthController::class, 'login'])->name('admin.auth.login');
+
+
+Route::middleware(['guest'])->group(function(){
+       Route::get('/', [Guest_WelcomeController::class, 'index'])->name('welcome');
+       Route::post('/guest_logout', [Guest_WelcomeController::class, 'logout'])->name('guest.auth.logout');
+
+
+        Route::get('/admin', [Admin_AuthController::class, 'index'])->name('admin.auth.index');
+        Route::post('/admin', [Admin_AuthController::class, 'login'])->name('admin.auth.login');
+
+        Route::post('/', [Staff_AuthController::class, 'login'])->name('staff.auth.login');
+
+        Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
+
+});
+
+
+
 
 
 Route::prefix('staff')->middleware(['auth', 'staff'])->group(function(){
@@ -155,6 +177,20 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
     Route::get('colleges/{college}/edit', [Admin_CollegeController::class, 'edit'])->name('admin.colleges.edit');
     Route::post('colleges/{college}/update', [Admin_CollegeController::class, 'update'])->name('admin.colleges.update');
     Route::delete('college/{college}/destroy', [Admin_CollegeController::class, 'destroy'])->name('admin.colleges.destroy');
+
+
+    // Ofice
+    Route::get('/offices', [Admin_OfficeController::class, 'index'])->name('admin.offices.index');
+    Route::get('/offices/create', [Admin_OfficeController::class, 'create'])->name('admin.offices.create');
+    Route::post('/offices/store', [Admin_OfficeController::class, 'store'])->name('admin.offices.store');
+    
+    Route::get('/offices/{office}/show', [Admin_OfficeController::class, 'show'])->name('admin.offices.show');
+    Route::get('/offices/{office}/edit', [Admin_OfficeController::class, 'edit'])->name('admin.offices.edit');
+    Route::post('/offices/{office}/update', [Admin_OfficeController::class, 'update'])->name('admin.offices.update');
+
+    Route::get('/offices/{office}/confirm_delete', [Admin_OfficeController::class, 'confirm_delete'])->name('admin.offices.confirm_delete');
+    Route::post('/offices/{office}/destroy', [Admin_OfficeController::class, 'destroy'])->name('admin.offices.destroy');
+
 
 
     // directorates
@@ -254,11 +290,14 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
     // Staff
     Route::get('staff', [Admin_StaffController::class, 'index'])->name('admin.staff.index');
     Route::post('staff/select_organ', [Admin_StaffController::class, 'select_organ'])->name('admin.staff.select_organ');
-    Route::get('staff/{organ}/create', [Admin_StaffController::class, 'create'])->name('admin.staff.create');
+    Route::get('staff/create', [Admin_StaffController::class, 'create'])->name('admin.staff.create');
     Route::post('staff/store', [Admin_StaffController::class, 'store'])->name('admin.staff.store');
 
     Route::get('staff/{staff}/edit', [Admin_StaffController::class, 'edit'])->name('admin.staff.edit');
     Route::post('staff/{staff}/update', [Admin_StaffController::class, 'update'])->name('admin.staff.update');
+
+
+    Route::get('staff/organs/fetch_organ', [Admin_StaffController::class, 'fetch_organ'])->name('admin.staff.organs.fetch_organ');
 
 
     // Admin Document Category Type
@@ -287,7 +326,7 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
     Route::get('document_details/{document}', [Admin_DocumentController::class, 'show'])->name('admin.documents.show');
 
     // User Profile
-    Route::get('/profile/user/{fileno}', [Admin_ProfileController::class, 'user_profile'])->name('admin.profile.user_profile');
+    Route::get('/profile/user/{email}', [Admin_ProfileController::class, 'user_profile'])->name('admin.profile.user_profile');
 
     // Tracker
     Route::get('tracker', [Admin_TrackerController::class, 'index'])->name('admin.tracker.index');
@@ -308,7 +347,7 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
 
 
 
-Route::get('/dashboard', function () {
+/* Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -316,6 +355,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+}); */
 
-require __DIR__.'/auth.php';
+

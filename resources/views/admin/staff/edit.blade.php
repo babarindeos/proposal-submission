@@ -28,67 +28,25 @@
                         </div>
 
 
-                        @include('partials._session_response')
-                        
-                        
+                        @include('partials._session_response')               
 
-                         
-
-
-                        <!-- Department //-->
+                         <!-- Title //-->
                         <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-2">
                                 
                                 
-                            <select name="department" class="border border-1 border-gray-400 bg-gray-50
+                            <input type='text' name="title" class="border border-1 border-gray-400 bg-gray-50
                                                                      w-full p-4 rounded-md 
                                                                      focus:outline-none
                                                                      focus:border-blue-500 
                                                                      focus:ring
                                                                      focus:ring-blue-100"
+                                                                     value="{{ $staff->title }}"
+                                                                     placeholder = "Title"
                                                                      
                                                                      
                                                                      style="font-family:'Lato';font-size:16px;font-weight:500;"
                                                                      required
-                                                                     >
-                                                                    <option value=''>-- Select Department --</option>
-                                                                        @foreach($departments as $department)
-                                                                            <option class='py-4' @if($department->id == $staff->department_id) selected @endif value="{{$department->id}}">{{$department->department_name}} ({{$department->department_code}})</option>
-                                                                        @endforeach                                                                    
-                                                                    </select>
-
-                                                                     @error('department')
-                                                                        <span class="text-red-700 text-sm">
-                                                                            {{$message}}
-                                                                        </span>
-                                                                     @enderror
-                            
-                        </div>                        
-                        <!-- end of Department //-->
-
-
-                        <!-- Title //-->
-                        <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-2">
-                                
-                                
-                            <select name="title" class="border border-1 border-gray-400 bg-gray-50
-                                                                     w-full p-4 rounded-md 
-                                                                     focus:outline-none
-                                                                     focus:border-blue-500 
-                                                                     focus:ring
-                                                                     focus:ring-blue-100"
-                                                                     
-                                                                     
-                                                                     style="font-family:'Lato';font-size:16px;font-weight:500;"
-                                                                     required
-                                                                     >
-                                                                    <option value=''>-- Select Title --</option>
-                                                                            <option @if ($staff->title == "Prof.") selected @endif value="Prof.">Professor</option>
-                                                                            <option @if ($staff->title == "Assoc. Prof.") selected @endif value="Assoc. Prof.">Associate Professor</option>
-                                                                            <option @if ($staff->title == "Dr.") selected @endif value="Dr.">Doctor</option> 
-                                                                            <option @if ($staff->title == "Mr.") selected @endif value="Mr.">Mr.</option> 
-                                                                            <option value="Mrs.">Mrs.</option> 
-                                                                            <option value="Ms">Ms.</option>                                                                   
-                                                                    </select>
+                                                                     >                                                               
 
                                                                      @error('title')
                                                                         <span class="text-red-700 text-sm">
@@ -99,33 +57,8 @@
                         </div>                        
                         <!-- end of Title //-->
 
-                        <!-- Staff No. //-->
-                        <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-3">
+
                         
-                            
-                            <input type="text" name="fileno" class="border border-1 border-gray-400 bg-gray-50
-                                                                    w-full p-4 rounded-md 
-                                                                    focus:outline-none
-                                                                    focus:border-blue-500 
-                                                                    focus:ring
-                                                                    focus:ring-blue-100" placeholder="Staff No."
-                                                                    
-                                                                    value="{{ $staff->fileno }}"
-                                                                    
-                                                                    style="font-family:'Lato';font-size:16px;font-weight:500;"                                                                     
-                                                                    required
-                                                                    />  
-                                                                                                                                        
-
-                                                                    @error('fileno')
-                                                                        <span class="text-red-700 text-sm">
-                                                                            {{$message}}
-                                                                        </span>
-                                                                    @enderror
-                            
-                        </div><!-- end of Staff No. //-->
-
-
                         <!-- Surname //-->
                         <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-3">
                         
@@ -207,6 +140,65 @@
                         </div><!-- end of middlename //-->
 
 
+                        <!-- File No. //-->
+                        <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-3">
+                        
+                            
+                            <input type="text" name="fileno" class="border border-1 border-gray-400 bg-gray-50
+                                                                    w-full p-4 rounded-md 
+                                                                    focus:outline-none
+                                                                    focus:border-blue-500 
+                                                                    focus:ring
+                                                                    focus:ring-blue-100" placeholder="Staff No."
+                                                                    
+                                                                    value="{{ $staff->fileno }}"
+                                                                    
+                                                                    style="font-family:'Lato';font-size:16px;font-weight:500;"                                                                     
+                                                                    required
+                                                                    />  
+                                                                                                                                        
+
+                                                                    @error('fileno')
+                                                                        <span class="text-red-700 text-sm">
+                                                                            {{$message}}
+                                                                        </span>
+                                                                    @enderror
+                            
+                        </div><!-- end of File No. //-->
+
+
+
+                        <!-- Office //-->
+                        <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-2">
+                                
+                                
+                            <select name="office" class="border border-1 border-gray-400 bg-gray-50
+                                                                     w-full p-4 rounded-md 
+                                                                     focus:outline-none
+                                                                     focus:border-blue-500 
+                                                                     focus:ring
+                                                                     focus:ring-blue-100"
+                                                                     
+                                                                     
+                                                                     style="font-family:'Lato';font-size:16px;font-weight:500;"
+                                                                     required
+                                                                     >
+                                                                    <option value=''>-- Select Office --</option>
+                                                                        @foreach($offices as $office)
+                                                                            <option value="{{ $office->id }}" @if($staff->office_id==$office->id) selected @endif>{{ $office->name }}</option> 
+                                                                        @endforeach                                                                                                                                       
+                                                                    </select>
+
+                                                                     @error('office')
+                                                                        <span class="text-red-700 text-sm">
+                                                                            {{$message}}
+                                                                        </span>
+                                                                     @enderror
+                            
+                        </div>                        
+                        <!-- end of Office //-->
+
+
 
 
                         <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] mt-4">
@@ -223,3 +215,48 @@
 
     </div><!-- end of container //-->
 </x-admin-layout>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    $(document).ready(function(){
+        
+        $("#segment").bind("change", function(){
+            var segment_id = $(this).val();
+
+            $.ajax({
+                    url: "{{ route('admin.staff.organs.fetch_organ') }}",
+                    method: 'GET',
+                    data: { segment_id: segment_id },
+                    success: function(response){
+                        console.log(response)
+                        
+                        if (!response || $.trim(response) === "" || response.length === 0) 
+                        {
+                            //console.log("empty");
+                            
+                        }
+                        else
+                        {
+                            $("#organ").html(response);
+                        }                      
+                       
+                    },
+                    error: function(){
+                        
+                    }
+            });
+
+        });
+            
+            
+    });
+
+
+        
+  
+
+
+</script>

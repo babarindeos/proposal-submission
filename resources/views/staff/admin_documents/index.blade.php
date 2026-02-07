@@ -45,9 +45,10 @@
                             >
                     <thead>
                         <tr class="bg-gray-200">
-                            <th class="text-center font-semibold py-2 w-16">SN</th>
-                            <th class="font-semibold py-2 text-left">Documents</th>
-                            <th class="font-semibold py-2 text-left">Date Created</th>
+                            <th width="10%" class="text-center font-semibold py-2 w-16">SN</th>
+                            <th width="45%" class="font-semibold py-2 text-left">Documents</th>
+                            <th width="30%" class="font-semibold py-2 text-left">Category</th>
+                            <th width="15%" class="font-semibold py-2 text-left">Date Created</th>
                             
                         </tr>
                     </thead>
@@ -55,29 +56,39 @@
                         @php
                             $counter = ($documents->currentPage() - 1) * $documents->perPage();
                         @endphp
-                        @foreach($documents as $doc)
+                        @foreach($documents as $document)
                             <tr class="border border-b border-gray-200 ">
                                 <td class='text-center py-4'>{{ ++$counter }}.</td>
                                 <td class="py-2 pr-4">
                                     
                                     <div>
-                                        <a href="{{ route('staff.workflows.flow', ['document'=>$doc->document->id]) }}" class='text-blue-500 underline font-semibold' href=''>
-                                            {{ $doc->document->title }}
+                                        <a href="#" class='text-blue-500 underline font-semibold' href=''>
+                                            {{ $document->title }}
                                         </a>
                                     </div>
                                     <div class='flex flex-col space-y-1 md:flex-row justify-between text-xs'>
                                         <div class="flex flex-col">
                                                 <div class="flex flex-row space-x-2">
-                                                    <div>{{ $doc->document->filetype }} ({{ $doc->document->filesize }})</div>
-                                                    <div>{{ $doc->document->owner->surname }} {{ $doc->document->owner->firstname }}</div>
+                                                    <div>{{ $document->filetype }} ({{ $document->filesize }})</div>
+                                                    <div>{{ $document->owner->surname }} {{ $document->owner->firstname }}</div>
                                                 </div>                                                
                                         </div>                                        
                                     </div>
                                 
                                 </td>
+
+                                <td>
+                                        {{ $document->admin_category->name }}
+                                        <div class="text-sm">
+                                            {{ $document->admin_category->admin_category_type->name }}
+                                        </div>
+
+                                </td>
+
+
                                 <td width="20%" class="text-sm">
                                         <div class="px-0">
-                                            {{ $doc->document->created_at->format('l jS F, Y @ g:i a')}}
+                                            {{ $document->created_at->format('l jS F, Y @ g:i a')}}
                                         </div>
                                 </td>
                                 

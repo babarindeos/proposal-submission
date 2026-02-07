@@ -14,8 +14,8 @@
 
 
 
-        <!-- new college form //-->
-        <section>
+        <!-- new Staff form //-->
+        <section class='mb-8'>
                 <div>
                     <form  action="{{ route('admin.staff.store')}} " method="POST" class="flex flex-col mx-auto w-[90%] items-center justify-center">
                         @csrf
@@ -32,67 +32,24 @@
                         
                         
 
-                        <!-- Segment //-->
-                        <input type="hidden" name="segment_id" value="{{ $segment_id }}" />
-
-
-                        <!-- end of Segment //-->
-
-
-                        <!-- Organ //-->
-                        <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-2">
-                                
-                                
-                            <select name="organ" class="border border-1 border-gray-400 bg-gray-50
-                                                                     w-full p-4 rounded-md 
-                                                                     focus:outline-none
-                                                                     focus:border-blue-500 
-                                                                     focus:ring
-                                                                     focus:ring-blue-100"
-                                                                     
-                                                                     
-                                                                     style="font-family:'Lato';font-size:16px;font-weight:500;"
-                                                                     required
-                                                                     >
-                                                                    <option value=''>-- Select {{ $organ }} --</option>
-                                                                        @foreach($organ_items as $item)
-                                                                            <option class='py-4' value="{{$item->id}}">{{$item->name}} ({{$item->code}})</option>
-                                                                        @endforeach                                                                    
-                                                                    </select>
-
-                                                                     @error('organ')
-                                                                        <span class="text-red-700 text-sm">
-                                                                            {{$message}}
-                                                                        </span>
-                                                                     @enderror
-                            
-                        </div>                        
-                        <!-- end of Organ //-->
-
+                        
 
                         <!-- Title //-->
                         <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-2">
                                 
                                 
-                            <select name="title" class="border border-1 border-gray-400 bg-gray-50
+                            <input type='text' name="title" class="border border-1 border-gray-400 bg-gray-50
                                                                      w-full p-4 rounded-md 
                                                                      focus:outline-none
                                                                      focus:border-blue-500 
                                                                      focus:ring
                                                                      focus:ring-blue-100"
+                                                                     placeholder = "Title"
                                                                      
                                                                      
                                                                      style="font-family:'Lato';font-size:16px;font-weight:500;"
                                                                      required
-                                                                     >
-                                                                    <option value=''>-- Select Title --</option>
-                                                                            <option value="Prof.">Professor</option>
-                                                                            <option value="Assoc. Prof.">Associate Professor</option>
-                                                                            <option value="Dr.">Doctor</option> 
-                                                                            <option value="Mr.">Mr.</option> 
-                                                                            <option value="Mrs.">Mrs.</option> 
-                                                                            <option value="Ms">Ms.</option>                                                                   
-                                                                    </select>
+                                                                     >                                                               
 
                                                                      @error('title')
                                                                         <span class="text-red-700 text-sm">
@@ -103,32 +60,7 @@
                         </div>                        
                         <!-- end of Title //-->
 
-                        <!-- Staff No. //-->
-                        <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-3">
                         
-                            
-                            <input type="text" name="fileno" class="border border-1 border-gray-400 bg-gray-50
-                                                                    w-full p-4 rounded-md 
-                                                                    focus:outline-none
-                                                                    focus:border-blue-500 
-                                                                    focus:ring
-                                                                    focus:ring-blue-100" placeholder="Staff No."
-                                                                    
-                                                                    value="{{ old('fileno') }}"
-                                                                    
-                                                                    style="font-family:'Lato';font-size:16px;font-weight:500;"                                                                     
-                                                                    required
-                                                                    />  
-                                                                                                                                        
-
-                                                                    @error('fileno')
-                                                                        <span class="text-red-700 text-sm">
-                                                                            {{$message}}
-                                                                        </span>
-                                                                    @enderror
-                            
-                        </div><!-- end of Staff No. //-->
-
 
                         <!-- Surname //-->
                         <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-3">
@@ -211,6 +143,34 @@
                         </div><!-- end of middlename //-->
 
 
+                        <!-- Staff No. //-->
+                        <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-3">
+                        
+                            
+                            <input type="text" name="fileno" class="border border-1 border-gray-400 bg-gray-50
+                                                                    w-full p-4 rounded-md 
+                                                                    focus:outline-none
+                                                                    focus:border-blue-500 
+                                                                    focus:ring
+                                                                    focus:ring-blue-100" placeholder="Staff No."
+                                                                    
+                                                                    value="{{ old('fileno') }}"
+                                                                    
+                                                                    style="font-family:'Lato';font-size:16px;font-weight:500;"                                                                     
+                                                                    required
+                                                                    />  
+                                                                                                                                        
+
+                                                                    @error('fileno')
+                                                                        <span class="text-red-700 text-sm">
+                                                                            {{$message}}
+                                                                        </span>
+                                                                    @enderror
+                            
+                        </div><!-- end of Staff No //-->
+
+
+
                         <!-- Email //-->
                         <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-3">
                         
@@ -238,6 +198,40 @@
                         </div><!-- end of email //-->
 
 
+                        
+
+                        <!-- Office //-->
+                        <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-2">
+                                
+                                
+                            <select name="office" class="border border-1 border-gray-400 bg-gray-50
+                                                                     w-full p-4 rounded-md 
+                                                                     focus:outline-none
+                                                                     focus:border-blue-500 
+                                                                     focus:ring
+                                                                     focus:ring-blue-100"
+                                                                     
+                                                                     
+                                                                     style="font-family:'Lato';font-size:16px;font-weight:500;"
+                                                                     required
+                                                                     >
+                                                                    <option value=''>-- Select Office --</option>
+                                                                        @foreach($offices as $office)
+                                                                            <option value="{{ $office->id }}">{{ $office->name }}</option> 
+                                                                        @endforeach                                                                                                                                       
+                                                                    </select>
+
+                                                                     @error('office')
+                                                                        <span class="text-red-700 text-sm">
+                                                                            {{$message}}
+                                                                        </span>
+                                                                     @enderror
+                            
+                        </div>                        
+                        <!-- end of Office //-->
+
+
+
                         <!-- Role //-->
                         <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-2">
                                 
@@ -255,7 +249,7 @@
                                                                      >
                                                                     <option value=''>-- Select Role --</option>
                                                                         <option value='staff'>Staff</option> 
-                                                                        <option value='manager'>Manager</option>                                                                   
+                                                                        <option value='admin'>Admin</option>                                                                   
                                                                     </select>
 
                                                                      @error('role')
@@ -281,7 +275,7 @@
                     </form><!-- end of new college form //-->
                 <div>
         </section>
-        <!-- end of new college form //-->
+        <!-- end of new Staff form //-->
 
 
     </div><!-- end of container //-->

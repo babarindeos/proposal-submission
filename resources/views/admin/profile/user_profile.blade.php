@@ -6,23 +6,7 @@
                 </div>                
         </section>
 
-        @if ( $userprofile == null)
-            <section class="mx-auto">
-                    <div class="flex flex-col justify-content items-center  py-12">
-                        <div class="text-2xl text-gray-400 font-bold">Oops! An error occurred</div>
-                        <div class="text-lg font-semibold">Sorry, there is no such record </div>
-                    </div>
-            </section>
-        
-        @elseif ($userprofile->user->profile == null)
-            
-            <section class="mx-auto">
-                    <div class="flex flex-col justify-content items-center  py-12">
-                        <div class="text-2xl text-gray-400 font-bold">Oops! An error occurred</div>
-                        <div class="text-lg font-semibold">Sorry, the user has not created profile for the account </div>
-                    </div>
-            </section>
-        @else
+       
 
                 <section class="flex flex-col md:flex-row rounded w-full mt-3 space-x-4">
                     <div class="flex flex-col w-full  md:w-[30%] justify-center items-center 
@@ -43,35 +27,50 @@
                                     <div class="text-xl font-semibold">
                                             {{ $userprofile->user->surname }} {{ $userprofile->user->firstname }} {{ $userprofile->user->middlename }}                                
                                     </div>
-                                    <div class="text-sm">
-                                            {{ $userprofile->user->profile->designation}}, {{ $userprofile->user->staff->fileno}}
+                                     @if ( $userprofile->user->profile != null)
+                                        <div class="text-sm">
+                                                {{ $userprofile->user->profile->designation}}, {{ $userprofile->user->staff->fileno}}
+                                        </div>   
+                                     @else
+                                        <div class="text-sm">
+                                                {{ $userprofile->user->staff->fileno }}
+                                        </div>   
+                                     @endif                         
+                            </div>
+
+                        
+                            <div class="py-4 mx-[10%] md:mx-0">
+                                    
+                                    <div>
+                                                <div class='font-semibold'>Office </div>
+                                                <div>
+                                                        {{ $userprofile->user->staff->office->name }}
+                                                </div>
+                                            
                                     </div>                            
                             </div>
 
 
-                            <div class="py-4 mx-[10%] md:mx-0">
-                                    <div>
-                                            {{ $userprofile->department->ministry->name}} ({{ $userprofile->department->ministry->code}})
-                                    </div>
-                                    <div>
-                                            {{ $userprofile->department->department_name }} ({{ $userprofile->department->department_code}})
-                                    </div>                            
-                            </div>
-
-
-                            <div class="py-4 mx-[10%] md:mx-0">
+                           <div class="py-4 mx-[10%] md:mx-0">
+                                    <div class='font-semibold'>Contact </div>
                                     <div>
                                             {{ $userprofile->user->email }}
                                     </div>
-                                    <div>
-                                            {{ $userprofile->user->profile->phone}}
-                                    </div>
+                                   @if ( $userprofile->user->profile != null)
+                                        <div>
+                                                {{ $userprofile->user->profile->phone}}
+                                        </div>
+                                    @endif
 
-                            </div>
+                           </div>
+                        
+                           
+
+                            
                     </div>
                 </section>
 
-    @endif
+    
     
 
 

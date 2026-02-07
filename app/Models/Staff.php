@@ -11,13 +11,12 @@ class Staff extends Model
 
     protected $fillable = [
         'user_id',
-        'segment_id',
-        'organ_id',
-        'fileno',
+        'office_id',
         'title',
         'surname',
         'firstname',
-        'middlename'
+        'middlename',
+        'fileno'
     ];
 
 
@@ -39,5 +38,49 @@ class Staff extends Model
     public function profile()
     {
         return $this->hasOne(Profile::class, 'user_id', 'user_id');
+    }
+
+    public function office()
+    {
+        return $this->belongsTo(Office::class, 'office_id', 'id');
+    }
+
+    public function organ()
+    {            
+
+        $organ = '';
+        $organ_item = '';
+
+        //dd($this->segment_id);
+
+        switch ($this->segment_id)
+        {
+            case 1:
+                $organ = "Directorate";
+                $organ_item = Directorate::where('id', $this->organ_id)->first();
+                break;
+            case 2:
+                $organ = "Department";
+                $organ_item = Department::where('id', $this->organ_id)->first();
+                break;
+            case 3:
+                $organ = "Division";
+                $organ_item = Division::where('id', $this->organ_id)->first();
+                break;
+            case 4:
+                $organ = "Branch";
+                $organ_item = Branch::where('id', $this->organ_id)->first();
+                break;                
+            case 5:
+                $organ = "Section";
+                $organ_item = Section::where('id', $this->organ_id)->first();
+                break;
+            case 6:
+                $organ = "Unit";
+                $organ_item = Unit::where('id', $this->organ_id)->first();
+        }
+
+        return $organ_item;
+
     }
 }

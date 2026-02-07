@@ -42,7 +42,7 @@
                                 >
                         <thead>
                             <tr class="bg-gray-200">
-                                <th class="text-center font-semibold py-2 w-16">SN</th>
+                                <th class="text-center font-semibold py-4 w-16">SN</th>
                                 <th class="font-semibold py-2 text-left">Directorate</th>
                                 <th class="font-semibold py-2 text-left">Department Name</th>
                                 <th class="font-semibold py-2 text-left">Department Code</th>
@@ -57,7 +57,7 @@
                                 @foreach ($departments as $department)
                                 <tr class="border border-b border-gray-200">
                                     <td class='text-center py-4'>{{ ++$counter }}.</td>
-                                    <td>
+                                    <td class='py-8'>
                                         {{ $department->directorate->name }} <small>({{$department->directorate->code}})</small>
                                         
                                     </td>

@@ -18,7 +18,9 @@ class Staff_AdminDocumentController extends Controller
     //
     public function index()
     {
-        $documents = AdminDocument::orderby('id', 'desc')->paginate(10);
+        $documents = AdminDocument::where('uploader', Auth::id())
+                                    ->orderby('id', 'desc')->paginate(10);
+        
         return view('staff.admin_documents.index', compact('documents'));
     }
 

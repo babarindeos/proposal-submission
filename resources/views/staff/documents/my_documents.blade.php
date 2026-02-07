@@ -14,7 +14,7 @@
         <!-- Check if user has documens //-->
         @if ($documents->count())
 
-                <section class="flex flex-col py-1 mt-8 justify-end">
+                <section class="flex flex-col py-1 mt-0 justify-end">
                     <div class="flex justify-end border border-0">
                     
                         <input type="text" name="search" class="w-3/5 md:w-2/5 border border-1 border-gray-400 bg-gray-50
@@ -36,10 +36,9 @@
                                 >
                         <thead>
                             <tr class="bg-gray-200">
-                                <th class="text-center font-semibold py-2 w-16">SN</th>
+                                <th class="text-center font-semibold py-4 w-[15%] md:w-[8%]">SN</th>
                                 <th class="font-semibold py-2 text-left">Documents</th>
-                                <th class="font-semibold py-2 text-left">Date Created</th>
-                                
+                                                                
                             </tr>
                         </thead>
                         <tbody>
@@ -48,66 +47,68 @@
                             @endphp
                             @foreach($documents as $document)
                                 <tr class="border border-b border-gray-200 ">
-                                    <td class='text-center py-4'>{{ ++$counter }}.</td>
+                                    <td class='text-center py-8'>{{ ++$counter }}.</td>
                                     <td class="py-2 pr-4">
-                                        
-                                        <div>
-                                            <a href="{{ route('staff.documents.show', ['document'=>$document->id]) }}" class='text-blue-500 underline font-semibold' href=''>
-                                                {{ $document->title }}
-                                            </a>
-                                        </div>
-                                        <div class='flex flex-col space-y-1 md:flex-row justify-between text-xs'>
-                                            <div>
-                                                    <div>{{ $document->filetype }} ({{ $document->filesize }})</div>
+                                        <div class='flex flex-col md:flex-row'>
+                                                    <div class='flex flex-col md:flex-col w-full md:w-4/5'>
+                                                            <div>
+                                                                <a href="{{ route('staff.documents.show', ['document'=>$document->id]) }}" class='text-blue-500 underline font-semibold' href=''>
+                                                                    {{ $document->title }}
+                                                                </a>
+                                                            </div>
+                                                            <div class='flex flex-col space-y-1 md:flex-row justify-between text-xs'>
+                                                                <div>
+                                                                        <div>{{ $document->filetype }} ({{ $document->filesize }})</div>
 
-                                                    <div class="flex flex-col md:flex-row space-y-1 py-1 md:space-x-8 md:space-y-0">
-                                                        @if ($document->workflows->count())
-                                                            <a class="hover:underline cursor-pointer" href="{{ route('staff.workflows.flow', ['document'=>$document->id]) }}" > 
-                                                                Workflow ({{ $document->workflows->count() }})
-                                                            </a>
-                                                        @endif
+                                                                        <div class="flex flex-col md:flex-row space-y-1 py-1 md:space-x-8 md:space-y-0">
+                                                                            @if ($document->workflows->count())
+                                                                                <a class="hover:underline cursor-pointer" href="{{ route('staff.workflows.flow', ['document'=>$document->id]) }}" > 
+                                                                                    Workflow ({{ $document->workflows->count() }})
+                                                                                </a>
+                                                                            @endif
 
-                                                        @if ($document->general_messages->count())
-                                                            <a href="{{ route('staff.workflows.general_message', ['document'=>$document->id]) }}" class="hover:underline cursor-pointer">
-                                                                    General Messages ({{ $document->general_messages->count() }})
-                                                            </a>
-                                                        @endif
+                                                                            @if ($document->general_messages->count())
+                                                                                <a href="{{ route('staff.workflows.general_message', ['document'=>$document->id]) }}" class="hover:underline cursor-pointer">
+                                                                                        General Messages ({{ $document->general_messages->count() }})
+                                                                                </a>
+                                                                            @endif
 
-                                                        
-                                                            
+                                                                            
+                                                                                
 
-                                                        @if ($document->private_messages->count())
-                                                            <a href="{{ route('staff.workflows.private_messages.my_private_messages', ['document'=>$document->id, 'recipient'=>$document->uploader])}}">
-                                                                @php
-                                                                    $pmCount = 0;
-                                                                    foreach($document->private_messages as $pm)
-                                                                    {
-                                                                        if ($pm->sender_id==Auth::id() || $pm->recipient_id==Auth::id())
-                                                                        {
-                                                                            $pmCount++;
-                                                                        }
-                                                                    }
-                                                                @endphp
-                                                                Private Messages ({{ $pmCount }})
-                                                            </a>
-                                                        @endif
+                                                                            @if ($document->private_messages->count())
+                                                                                <a href="{{ route('staff.workflows.private_messages.my_private_messages', ['document'=>$document->id, 'recipient'=>$document->uploader])}}">
+                                                                                    @php
+                                                                                        $pmCount = 0;
+                                                                                        foreach($document->private_messages as $pm)
+                                                                                        {
+                                                                                            if ($pm->sender_id==Auth::id() || $pm->recipient_id==Auth::id())
+                                                                                            {
+                                                                                                $pmCount++;
+                                                                                            }
+                                                                                        }
+                                                                                    @endphp
+                                                                                    Private Messages ({{ $pmCount }})
+                                                                                </a>
+                                                                            @endif
+                                                                        </div>
+                                                                </div>
+                                                                <!--
+                                                                <div class="md:px-4 border border-0">
+                                                                    <span class="px-2 py-1 rounded-md" style="background-color: #daf1e6;">
+                                                                        {{ $document->uuid }}
+                                                                    </span>
+                                                                </div>
+                                                                //-->
+                                                            </div>
                                                     </div>
-                                            </div>
-                                            <!--
-                                            <div class="md:px-4 border border-0">
-                                                <span class="px-2 py-1 rounded-md" style="background-color: #daf1e6;">
-                                                    {{ $document->uuid }}
-                                                </span>
-                                            </div>
-                                            //-->
+                                                    <div class='flex flex-col w-full md:w-1/5 text-sm md:text-md'>
+                                                            {{ $document->created_at->format('l jS F, Y @ g:i a')}}
+                                                    </div>
                                         </div>
                                     
                                     </td>
-                                    <td width="20%" class="text-sm">
-                                            <div class="px-0">
-                                                {{ $document->created_at->format('l jS F, Y @ g:i a')}}
-                                            </div>
-                                    </td>
+                                    
                                     
                                 </tr>
                             @endforeach

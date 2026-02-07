@@ -14,7 +14,7 @@
                     <!-- end of logo //-->
                     <!-- Name //-->
                     <div class="flex flex-col item-center justify-center">
-                            <div class="text-white font-bold text-2xl font-serif">OORBDA EDMS</div>
+                            <div class="text-white font-bold text-2xl font-serif">Abeokuta North EDMS</div>
                             <div class="text-white font-semibold font-serif text-xs opacity-70">Electronic Document Management System</div>
                                 
                     </div>

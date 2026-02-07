@@ -20,7 +20,7 @@
 
                             <div class="flex flex-col w-[80%] md:w-[80%] py-4 mt-4 font-serif" >
                                 <h2 class="font-semibold text-xl py-1" >Sign In</h2>
-                                Staff Members Only 
+                                
                                 
                             </div>
 
@@ -73,6 +73,9 @@
                                     @enderror
 
                             </div><!-- end of password //-->
+                            <div class='text-sm underline text-right border-0 w-4/5'>
+                                Forgot Password
+                            </div>
 
                             <!-- submit //-->
                             <!-- submit button //-->

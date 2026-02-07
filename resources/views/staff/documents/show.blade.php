@@ -111,7 +111,7 @@
                                                             @endif
                                                     </div>
                                                     <div class="flex flex-col py-2 w-full">
-                                                        <a href="{{ route('staff.profile.user_profile', ['fileno'=>$contributor->user->staff->fileno]) }}" class="font-bold hover:underline">
+                                                        <a href="{{ route('staff.profile.email_user_profile', ['email'=>$contributor->user->email]) }}" class="font-bold hover:underline">
                                                                 {{ $contributor->user->staff->surname}}  {{ $contributor->user->staff->firstname}}
                                                         </a>
                                                         @if ($contributor->user->profile != null)                                                               
