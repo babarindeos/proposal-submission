@@ -22,11 +22,11 @@
                             <div class="flex flex-row">
                                     <div class="flex flex-col flex-1 w-3/4">
                                         <div class="text-white text-3xl">
-                                            {{ number_format($documents_count)}}
+                                            {{ number_format($call_for_proposals_count)}}
                                         </div>                            
                                     
                                         <div class="text-sm text-white font-normal">
-                                            Documents
+                                            Call for Proposals
                                         </div>
                                     </div>
                                     <div class="w-1/4 flex justify-center items-center border-0">
@@ -49,7 +49,7 @@
                                         </div>                            
                                     
                                         <div class="text-sm text-white font-normal">
-                                            Workflows
+                                            Conferences
                                         </div>
                                     </div>
                                     <div class="w-1/4 flex justify-center items-center border-0">
@@ -70,11 +70,11 @@
                             <div class="flex flex-row">
                                     <div class="flex flex-col flex-1 w-3/4">
                                         <div class="text-white text-3xl">
-                                            {{ number_format($staff_count)}}
+                                            {{ number_format($proposal_applications_count)}}
                                         </div>                            
                                     
                                         <div class="text-sm text-white font-normal">
-                                            Staff
+                                            Applications for Calls
                                         </div>
                                     </div>
                                     <div class="w-1/4 flex justify-center items-center border-0">
@@ -98,7 +98,7 @@
                                         </div>                            
                                     
                                         <div class="text-sm text-white font-normal">
-                                            Departments
+                                            Reviewers
                                         </div>
                                     </div>
                                     <div class="w-1/4 flex justify-center items-center border-0">

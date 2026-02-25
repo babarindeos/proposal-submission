@@ -4,6 +4,6 @@
                 $year = Date('Y');
                
             @endphp
-            Abeokuta North, Ogun State. &copy;{{ $year }} All rights reserved.
+            Directorate of Research, Innovations and Partnerships, FUNAAB. &copy;{{ $year }} All rights reserved.   
     </div>
 </footer>

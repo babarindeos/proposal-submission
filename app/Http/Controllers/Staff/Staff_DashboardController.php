@@ -8,6 +8,7 @@ use App\Models\Workflow;
 use App\Models\PrivateMessage;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Profile;
+use App\Models\CallForProposal;
 //use Illuminate\Support\Facades\Auth;
 
 class Staff_DashboardController extends Controller
@@ -32,25 +33,16 @@ class Staff_DashboardController extends Controller
             return redirect()->route('staff.profile.create');
         }
 
-        // get notification
-        $workflow_notifications = Workflow::where('recipient_id', Auth::user()->id)
-                                            ->where('read', false)
-                                            ->orderBy('id', 'desc')->paginate(5);
+        /*  $call_for_proposals = CallForProposal::where('open_date', '<=', now())
+                                            ->where('close_date', '>=', now())
+                                            ->orderBy('created_at', 'asc')
+                                            ->get(); */
+            $call_for_proposals = CallForProposal::latest()->take(5)->get();
 
-        $private_message_notifications = PrivateMessage::where('recipient_id', Auth::user()->id)
-                                                       ->where('read', false)
-                                                       ->orderBy('id', 'desc')->paginate(5);
-
-        //dd($private_message_notifications);
-
-        $recent_workflows = Workflow::latest()->take(5)->get();      
+            
         
-        $current_user =  Auth::user()->id;
-        //dd($current_user);
-
-        $recent_workflows = Workflow::where('recipient_id','=', $current_user)->latest()->take(5)->get();
         
-        return view('staff.dashboard', compact('workflow_notifications', 'recent_workflows', 'private_message_notifications'));
+        return view('staff.dashboard', compact('call_for_proposals'));
 
     }
 }

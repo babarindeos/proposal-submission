@@ -3,15 +3,63 @@
 
     <div class="flex flex-col md:flex-row  ">
             <!-- left  panel //-->
-            <div class="flex flex-col w-full  md:w-[70%] ">
-                    <img src="{{ asset('images/goviflow_low.jpg') }}" />
+            <div class="flex flex-col w-full w-[90%] md:w-[70%] ">
+                    @if ($call_for_proposals->count())
+
+                        <div class="mx-auto w-[90%] md:w-[80%] flex flex-col py-8">
+                                <div class='text-2xl font-semibold border-b border-gray-300'>{{ $call_for_proposals->first()->title }}</div>
+                                <div class='py-4'>{{ $call_for_proposals->first()->description }}</div>
+                                <div class="flex flex-row gap-10 ">
+                                    <div><strong>Opening Date:</strong> {{ Carbon\Carbon::parse($call_for_proposals->first()->open_date)->format('l jS F, Y') }}</div>
+                                    <div><strong>Closing Date:</strong> {{ Carbon\Carbon::parse($call_for_proposals->first()->close_date)->format('l jS F, Y') }}</div>
+                                </div>
+                                <div>
+                                   
+                                        @php
+                                            $advert = optional($call_for_proposals->first())->advert;
+                                        @endphp
+
+                                        @if ($advert)
+                                            @php
+                                                $ext = strtolower(pathinfo($advert, PATHINFO_EXTENSION));
+                                                $imageExt = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                                            @endphp
+
+                                            @if (in_array($ext, $imageExt))
+                                                <img 
+                                                    src="{{ asset('storage/'.$advert) }}" 
+                                                    alt="Call for Proposal Advert"
+                                                    class="mt-4 max-w-full h-auto rounded-md shadow-md"
+                                                >
+                                            @else
+                                                <a 
+                                                    href="{{ asset('storage/'.$advert) }}" 
+                                                    target="_blank"
+                                                    class="text-blue-600 hover:underline"
+                                                >
+                                                    View Advert
+                                                </a>
+                                            @endif
+                                        @else
+                                            <span class="text-gray-600 italic">
+                                                No advert uploaded for this call for proposal.
+                                            </span>
+                                        @endif
+
+                                </div>
+                        </div>
+                        
+                    @else
+                        <img src="{{ asset('images/goviflow_low.jpg') }}" />
+                    @endif
+                    
             </div>
             <!-- end of left panel //-->
 
 
 
             <!-- Right  panel //-->
-            <div class="flex flex-col w-full  md:w-[30%] items-center justify-center py-8">
+            <div class="flex flex-col w-full  md:w-[30%] items-center justify-start py-8 bg-gray-50">
 
                 <section class="flex flex-col w-full border border-0">
                     <div class="flex flex-col w-full border border-0" >
@@ -86,10 +134,16 @@
                             </div>
 
                             <!-- end of submit //-->
-
+                            <div class='w-[80%] py-4'>Don't have an account? <a href="{{ route('guest.auth.register') }}" class='underline'>Register</a>   </div>
                         </form>
+                        
                     </div>
+
+                    
                 </section>
+
+
+                
                     
             </div>
             <!-- end of right panel //-->

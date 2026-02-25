@@ -11,8 +11,8 @@
             <!-- end of logo //-->
             <!-- Name //-->
             <div class="flex flex-col item-center justify-center">
-                    <div class="text-white font-bold text-2xl font-serif">Abeokuta-North EDMS</div>
-                    <div class="text-white font-semibold font-serif text-sm opacity-80">Electronic Document Management System</div>
+                    <div class="text-white font-bold text-2xl font-serif">DRIP</div>
+                    <div class="text-white font-semibold font-serif text-sm opacity-80">Directorate of Research, Innovations and Partnerships</div>
             </div>
             <!-- end of name //-->
         </a>

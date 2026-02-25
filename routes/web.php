@@ -28,6 +28,10 @@ use App\Http\Controllers\Admin\Admin_SectionController;
 use App\Http\Controllers\Admin\Admin_UnitController;
 
 use App\Http\Controllers\Admin\Admin_OfficeController;
+use App\Http\Controllers\Admin\Admin_CallForProposalController;
+use App\Http\Controllers\Admin\Admin_ReviewerController;
+
+use App\Http\Controllers\Admin\Admin_ProposalReviewerController;
 
 use App\Http\Controllers\Staff\Staff_AuthController;
 use App\Http\Controllers\Staff\Staff_DashboardController;
@@ -43,9 +47,13 @@ use App\Http\Controllers\Staff\Staff_ProfileController;
 use App\Http\Controllers\Staff\Staff_CategoryController;
 use App\Http\Controllers\Staff\Staff_AdminDocumentController;
 
+
+use App\Http\Controllers\Staff\Staff_ProposalApplicationController;
+
 use App\Http\Controllers\PDFController;
 
 use App\Http\Controllers\Guest\Guest_WelcomeController;
+use App\Http\Controllers\Guest\Guest_CallForProposalController;
 
 
 /*
@@ -86,6 +94,13 @@ Route::middleware(['guest'])->group(function(){
         Route::post('/', [Staff_AuthController::class, 'login'])->name('staff.auth.login');
 
         Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
+
+        Route::get('register', [Guest_WelcomeController::class, 'register'])->name('guest.auth.register');
+        Route::post('register', [Guest_WelcomeController::class, 'store'])->name('guest.auth.register.store');
+
+
+        Route::get('call_for_proposals/{call_for_proposal}/proposal_applications/{proposal_application}/reviewers/{reviewer}/reviews/{review}/review', [Guest_CallForProposalController::class, 'get_review'])->name('guests.call_for_proposals.proposal_applications.review');
+        Route::post('call_for_proposals/{call_for_proposal}/proposal_applications/{proposal_application}/reviewers/{reviewer}/reviews/{review}/review', [Guest_CallForProposalController::class, 'post_review'])->name('guests.call_for_proposals.proposal_applications.review.store');
 
 });
 
@@ -157,8 +172,8 @@ Route::prefix('staff')->middleware(['auth', 'staff'])->group(function(){
     Route::get('/categories/create', [Staff_CategoryController::class, 'create'])->name('staff.categories.create');
     Route::post('/categories/store', [Staff_CategoryController::class, 'store'])->name('staff.categories.store');
 
-
-  
+    Route::get('/call_for_proposals/{uuid}/application', [Staff_ProposalApplicationController::class, 'application'])->name('staff.call_for_proposals.application');
+    Route::post('/call_for_proposals/{uuid}/application', [Staff_ProposalApplicationController::class, 'store_application'])->name('staff.call_for_proposals.application.store');   
 });
 
 
@@ -342,7 +357,35 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
     Route::get('dean/assign_dean', [Admin_DeanController::class, 'assign_dean'])->name('admin.deans.assign_dean');
     Route::post('dean/assign_dean', [Admin_DeanController::class, 'store_assign_dean'])->name('admin.deans.store_assign_dean');
 
+
+    Route::get('call_for_proposals', [Admin_CallForProposalController::class, 'index'])->name('admin.call_for_proposals.index');
+    Route::get('call_for_proposals/create', [Admin_CallForProposalController::class, 'create'])->name('admin.call_for_proposals.create');
+    Route::post('call_for_proposals/store', [Admin_CallForProposalController::class, 'store'])->name('admin.call_for_proposals.store');
+    Route::get('call_for_proposals/{call_for_proposal}/show', [Admin_CallForProposalController::class, 'show'])->name('admin.call_for_proposals.show');
+
+    Route::get('call_for_proposals/{call_for_proposal}/edit', [Admin_CallForProposalController::class, 'edit'])->name('admin.call_for_proposals.edit');
+    Route::post('call_for_proposals/{call_for_proposal}/update', [Admin_CallForProposalController::class, 'update'])->name('admin.call_for_proposals.update');
+
+
+    Route::get('call_for_proposals/{call_for_proposal}/call_for_proposal/edit', [Admin_CallForProposalController::class, 'edit'])->name('admin.call_for_proposals.edit');
+    Route::post('call_for_proposals/{call_for_proposal}/call_for_proposal/update', [Admin_CallForProposalController::class, 'update'])->name('admin.call_for_proposals.update');
+
+    Route::get('call_for_proposals/{call_for_proposal}/submissions', [Admin_CallForProposalController::class, 'submissions'])->name('admin.call_for_proposals.submissions');
+    Route::get('call_for_proposals/{call_for_proposal}/proposal_applications/{proposal_application}/proposal_application', [Admin_CallForProposalController::class, 'proposal_application'])->name('admin.call_for_proposals.proposal_application');
     
+    Route::post('call_for_proposals/proposal_applications/{proposal_application}/proposal_application/status_update', [Admin_CallForProposalController::class, 'status_update'])->name('admin.call_for_proposals.proposal_application.status_update');
+
+    Route::get('reviewers', [Admin_ReviewerController::class, 'index'])->name('admin.reviewers.index');
+    Route::get('reviewers/create', [Admin_ReviewerController::class, 'create'])->name('admin.reviewers.create');
+    Route::post('reviewers/store', [Admin_ReviewerController::class, 'store'])->name('admin.reviewers.store'); 
+
+
+    Route::get('call_for_proposals/proposal_applications/{proposal_application}/proposal_application/send_to_reviewer', [Admin_ProposalReviewerController::class, 'send_to_reviewer'])->name('admin.call_for_proposals.proposal_application.send_to_reviewer');
+    Route::post('call_for_proposals/proposal_applications/{proposal_application}/proposal_application/send_to_reviewer', [Admin_ProposalReviewerController::class, 'post_send_to_reviewer'])->name('admin.call_for_proposals.proposal_application.send_to_reviewer.store');
+    
+    
+
+
 });
 
 
