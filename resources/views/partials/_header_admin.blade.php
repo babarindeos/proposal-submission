@@ -14,7 +14,7 @@
                     <!-- Name //-->
                     <div class="flex flex-col item-center justify-center">
                             <div class="text-white font-bold text-2xl font-serif">DRIP</div>
-                            <div class="text-white font-semibold font-serif text-xs opacity-70">Directorate of Research, Innovations and Partnerships</div>
+                            <div class="text-white font-semibold font-serif text-xs opacity-70 hidden md:flex">Directorate of Research, Innovations and Partnerships</div>
                                 
                     </div>
                     <!-- end of name //-->
@@ -64,7 +64,7 @@
             <!-- Mobile Menu -->
             <div class="lg:hidden hidden" id="mobile-menu">
                 <a href="#" class="block text-white px-4 py-2 hover:bg-gray-700 rounded-md">Dashboard</a>
-                <div class="relative">
+                <div class="relative hidden">
                     <button class="block w-full text-left text-white px-4 py-2 hover:bg-gray-700 rounded-md focus:outline-none" id="services-mobile">
                         Organs
                     </button>
@@ -78,10 +78,9 @@
                         <a href="{{ route('admin.units.index') }}" class="flex flex-row px-4 py-2 hover:bg-gray-200">Units</a>
                     </div>
                 </div>
-                <a href="#" class="block text-white px-4 py-2 hover:bg-gray-700 rounded-md">Users</a>
-                <a href="#" class="block text-white px-4 py-2 hover:bg-gray-700 rounded-md">Documents</a>
-                <a href="#" class="block text-white px-4 py-2 hover:bg-gray-700 rounded-md">Tracker</a>
-                <a href="#" class="block text-white px-4 py-2 hover:bg-gray-700 rounded-md">Analytics</a>
+                <a href="{{ route('admin.call_for_proposals.index') }}" class="block text-white px-4 py-2 hover:bg-gray-700 rounded-md">Call for Proposals</a>
+                <a href="{{ route('admin.reviewers.index') }}" class="block text-white px-4 py-2 hover:bg-gray-700 rounded-md">Reviewers</a>
+                
                 <form action="{{ route('admin.auth.logout') }}" method="POST" class="block w-full">
                     @csrf
                     

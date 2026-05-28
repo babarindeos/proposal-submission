@@ -72,7 +72,7 @@
                                                                     focus:outline-none
                                                                     focus:border-blue-500 
                                                                     focus:ring
-                                                                    focus:ring-blue-100" placeholder="Expertise Aarea"
+                                                                    focus:ring-blue-100" placeholder="Expertise Area"
                                                                     
                                                                     value="{{ old('expertise_area') }}"
                                                                     

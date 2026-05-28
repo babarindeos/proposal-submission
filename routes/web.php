@@ -99,6 +99,8 @@ Route::middleware(['guest'])->group(function(){
         Route::post('register', [Guest_WelcomeController::class, 'store'])->name('guest.auth.register.store');
 
 
+       
+
         Route::get('call_for_proposals/{call_for_proposal}/proposal_applications/{proposal_application}/reviewers/{reviewer}/reviews/{review}/review', [Guest_CallForProposalController::class, 'get_review'])->name('guests.call_for_proposals.proposal_applications.review');
         Route::post('call_for_proposals/{call_for_proposal}/proposal_applications/{proposal_application}/reviewers/{reviewer}/reviews/{review}/review', [Guest_CallForProposalController::class, 'post_review'])->name('guests.call_for_proposals.proposal_applications.review.store');
 
@@ -377,7 +379,16 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
 
     Route::get('reviewers', [Admin_ReviewerController::class, 'index'])->name('admin.reviewers.index');
     Route::get('reviewers/create', [Admin_ReviewerController::class, 'create'])->name('admin.reviewers.create');
-    Route::post('reviewers/store', [Admin_ReviewerController::class, 'store'])->name('admin.reviewers.store'); 
+    Route::post('reviewers/store', [Admin_ReviewerController::class, 'store'])->name('admin.reviewers.store');
+    Route::get('reviewers/fetch_reviewer', [Admin_ReviewerController::class, 'fetch_reviewer'])->name('admin.reviewers.fetch_reviewer');
+
+    Route::get('reviewers/{reviewer}/edit', [Admin_ReviewerController::class, 'edit'])->name('admin.reviewers.edit');
+    Route::post('reviewers/{reviewer}/update', [Admin_ReviewerController::class, 'update'])->name('admin.reviewers.update');
+
+    Route::get('reviewers/{reviewer}/confirm_delete', [Admin_ReviewerController::class, 'confirm_delete'])->name('admin.reviewers.confirm_delete');
+    Route::post('reviewers/{reviewer}/destroy', [Admin_ReviewerController::class, 'destroy'])->name('admin.reviewers.destroy');
+
+    Route::get('reviewers/generate_uuid', [Admin_ReviewerController::class, 'generate_uuid'])->name('admin.reviewers.generate_uuid');
 
 
     Route::get('call_for_proposals/proposal_applications/{proposal_application}/proposal_application/send_to_reviewer', [Admin_ProposalReviewerController::class, 'send_to_reviewer'])->name('admin.call_for_proposals.proposal_application.send_to_reviewer');

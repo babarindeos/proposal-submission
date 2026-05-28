@@ -57,7 +57,7 @@
                                     {{ Auth::user()->surname }} {{ Auth::user()->firstname }} {{ Auth::user()->middlename }}                                
                             </div>
                             <div class="text-sm">
-                                    {{ Auth::user()->profile->designation}}, {{ Auth::user()->staff->fileno}}
+                                    {{ Auth::user()->profile->designation}}
                             </div>                            
                     </div>
 

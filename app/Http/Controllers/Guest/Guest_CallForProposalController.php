@@ -56,14 +56,14 @@ class Guest_CallForProposalController extends Controller
                                         ->groupBy('section');
 
         // check if input scores are not greater than the mark obtainable for each scoring guide
-            foreach($scoring_guides as $section => $guides){
-                foreach($guides as $guide){
-                    $score = $request->input('scoring_guide_'.$guide->id);
-                    if($score > $guide->mark_obtainable){
-                        return redirect()->back()->withInput()->with('error', 'Score for Section '.$guide->section.' No. '.$guide->sn.' cannot be greater than '.$guide->mark_obtainable);
-                    }
+        foreach($scoring_guides as $section => $guides){
+            foreach($guides as $guide){
+                $score = $request->input('scoring_guide_'.$guide->id);
+                if($score > $guide->mark_obtainable){
+                    return redirect()->back()->withInput()->with('error', 'Score for Section '.$guide->section.' No. '.$guide->sn.' cannot be greater than '.$guide->mark_obtainable);
                 }
             }
+        }
 
        
                                       
@@ -91,7 +91,13 @@ class Guest_CallForProposalController extends Controller
         }
         $scoring_sheet->comment = $request->input('comment');
 
-        $scoring_sheet->save();
+        $review_already_done = ScoringSheet::where('proposal_reviewers_id', $review->id)                                        
+                                        ->where('reviewer_uuid', $reviewer->uuid)
+                                        ->exists();
+        if (!$review_already_done){
+            $scoring_sheet->save();
+        }
+       
 
         return redirect()->route('guests.call_for_proposals.proposal_applications.review',['call_for_proposal' => $call_for_proposal, 'proposal_application' => $proposal_application, 'reviewer' => $reviewer->uuid, 'review'=>$review->uuid])->with('success', 'Review submitted successfully!'); 
     }

@@ -33,9 +33,24 @@ class Staff_ProposalApplicationController extends Controller
                 $request->validate([
                     'principal_investigator' => 'required|string|max:255',
                     'proposal_title' => 'required|string|max:255',
+                    'proposal_title_file' => 'required|file|mimes:doc,docx,pdf,odt|max:20480', // max file size of 20MB
                     'proposal_file' => 'required|file|mimes:doc,docx,pdf,odt|max:20480', // max file size of 20MB
+                    'college_review' => 'required|file|mimes:doc,docx,pdf,odt|max:20480', // max file size of 20MB
                     'proposal_description' => 'required|string|max:5000'
                 ]);
+
+
+                // handle the uploaded proposal title file
+                if ($request->hasFile('proposal_title_file'))
+                {
+                    $proposalTitleFile = $request->file('proposal_title_file');
+
+                    $new_proposal_title_filename = $uuid."_".auth()->user()->id."_title_".time().".".$proposalTitleFile->getClientOriginalExtension();
+
+                    $proposalTitleFile->storeAs('proposals_title', $new_proposal_title_filename);
+
+                
+                }
 
                 // handle the uploaded proposal file
                 if ($request->hasFile('proposal_file'))
@@ -50,6 +65,21 @@ class Staff_ProposalApplicationController extends Controller
                 }
 
 
+                 // handle the uploaded college review file
+                if ($request->hasFile('college_review'))
+                {
+                    $collegeReviewFile = $request->file('college_review');
+
+                    $new_college_review_filename = $uuid."_".auth()->user()->id."_college_review_".time().".".$collegeReviewFile->getClientOriginalExtension();
+
+                    $collegeReviewFile->storeAs('college_reviews', $new_college_review_filename);
+
+                
+                }
+               
+
+
+
                 // save the proposal application details to the database
                     // you can create a ProposalApplication model and save the details there
                     // for example:
@@ -58,9 +88,11 @@ class Staff_ProposalApplicationController extends Controller
                         'uuid' => Str::orderedUuid(),
                         'user_id' => Auth::id(),
                         'call_for_proposal_id' => $call_for_proposal->id,
+                        'proposal_title_file' => "proposals_title/".$new_proposal_title_filename,
                         'proposal_file' => "proposals/".$new_proposal_filename,
                         'principal_investigator' => $request->principal_investigator,
-                        'proposal_title' => $request->proposal_title,   
+                        'proposal_title' => $request->proposal_title,  
+                        'college_review' => "college_reviews/".$new_college_review_filename,
                         'proposal_description' => $request->proposal_description
                     ]);
         }

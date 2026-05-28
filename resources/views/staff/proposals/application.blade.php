@@ -15,18 +15,19 @@
     
         <section class="py-8 mt-2">
                 <div>
-                    <form  action="{{ route('staff.call_for_proposals.application.store',['uuid'=>$call_for_proposal->uuid]) }} " method="POST" enctype="multipart/form-data" class="flex flex-col mx-auto w-full md:w-[95%] items-center justify-center">
+                    <form  action="{{ route('staff.call_for_proposals.application.store',['uuid'=>$call_for_proposal->uuid]) }} " method="POST" enctype="multipart/form-data" 
+                        class="flex flex-col mx-auto w-full md:w-[95%] items-center justify-center">
                         @csrf
     
                         
     
-                        <div class="flex flex-col w-[80%] md:w-[60%] py-2 md:py-4" style="font-family:'Lato'; font-size:18px; font-weight:400;">
+                        <div class="flex flex-col w-[85%] md:w-[60%] py-2 md:py-4" style="font-family:'Lato'; font-size:18px; font-weight:400;">
                             <h2 class="font-semibold text-xl py-1" >{{ $call_for_proposal->title }}</h2>
                             
                         </div>
     
     
-                        <div class="flex flex-col w-[80%] md:w-[60%]">
+                        <div class="flex flex-col w-[85%] md:w-[60%]">
                             @include('partials._session_response')
 
                             {{-- Success Message --}}
@@ -49,7 +50,7 @@
                             
                         
                         <!-- Principal Investigator //-->
-                        <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-3">
+                        <div class="flex flex-col border-red-900 w-[85%] md:w-[60%] py-3">
                         
                             
                             <input type="text" name="principal_investigator" class="border border-1 border-gray-400 bg-gray-50
@@ -57,7 +58,7 @@
                                                                     focus:outline-none
                                                                     focus:border-blue-500 
                                                                     focus:ring
-                                                                    focus:ring-blue-100" placeholder="Principal Investigator"
+                                                                    focus:ring-blue-100" placeholder="Full Name of Principal Investigator"
                                                                     
                                                                     value="{{ old('principal_investigator') }}"
                                                                     
@@ -76,7 +77,7 @@
     
 
                         <!-- Title //-->
-                        <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-3">
+                        <div class="flex flex-col border-red-900 w-[85%] md:w-[60%] py-3">
                         
                             
                             <input type="text" name="proposal_title" class="border border-1 border-gray-400 bg-gray-50
@@ -84,7 +85,7 @@
                                                                     focus:outline-none
                                                                     focus:border-blue-500 
                                                                     focus:ring
-                                                                    focus:ring-blue-100" placeholder="Proposal Title"
+                                                                    focus:ring-blue-100" placeholder="Title of Proposal"
                                                                     
                                                                     value="{{ old('proposal_title') }}"
                                                                     
@@ -108,11 +109,37 @@
                         
                         
                         
+                         <!-- Proposal Title file //-->
+                        <div class="flex flex-col border-red-900 w-[85%] md:w-[60%] py-2">
+                                                    
+                                            <div class='px-1 py-1'>Upload Title Page of Proposal <span class='text-sm'>(Page containing the names of the Principal Investigator and team members)</span></div>
+                                            
+                                            <input type="file" name="proposal_title_file" class="border border-1 border-gray-400 bg-gray-50
+                                                                                    w-full p-4 rounded-md 
+                                                                                    focus:outline-none
+                                                                                    focus:border-blue-500 
+                                                                                    focus:ring
+                                                                                    focus:ring-blue-100" 
+                                            
+                                            style="font-family:'Lato';font-size:16px;font-weight:500;"
+                                            accept=".docx, .pdf, .doc, .odt"
+                                            required
+                                            />
+                                                
+                    
+                                            @error('proposal_title_file')
+                                                <span class="text-red-700 text-sm">
+                                                    {{$message}}
+                                                </span>
+                                            @enderror
+                                            
+                        </div>
+                        <!-- end of Proposal Title file //-->      
 
                          <!-- Proposal file //-->
-                        <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-2">
+                        <div class="flex flex-col border-red-900 w-[85%] md:w-[60%] py-2">
                                                     
-                                            <div class='px-1 py-1'>Proposal File</div>
+                                            <div class='px-1 py-1'>Proposal File <span class='text-sm'>(Excluding the Title Page - without the names of the PI and team members)</span></div>
                                             <input type="file" name="proposal_file" class="border border-1 border-gray-400 bg-gray-50
                                                                                     w-full p-4 rounded-md 
                                                                                     focus:outline-none
@@ -136,8 +163,36 @@
                         <!-- end of Proposal file //-->      
 
 
+                         <!-- College Review file //-->
+                        <div class="flex flex-col border-red-900 w-[85%] md:w-[60%] py-2">
+                                                    
+                                            <div class='px-1 py-1'>Upload Copy of College Review</div>
+                                            <input type="file" name="college_review" class="border border-1 border-gray-400 bg-gray-50
+                                                                                    w-full p-4 rounded-md 
+                                                                                    focus:outline-none
+                                                                                    focus:border-blue-500 
+                                                                                    focus:ring
+                                                                                    focus:ring-blue-100" 
+                                            
+                                            style="font-family:'Lato';font-size:16px;font-weight:500;"
+                                            accept=".docx, .pdf, .doc, .odt"
+                                            required
+                                            />
+                                                
+                    
+                                            @error('college_review')
+                                                <span class="text-red-700 text-sm">
+                                                    {{$message}}
+                                                </span>
+                                            @enderror
+                                            
+                        </div>
+                        <!-- end of College Review //-->      
+
+
+
                         <!-- Description //-->
-                        <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-3">
+                        <div class="flex flex-col border-red-900 w-[85%] md:w-[60%] py-3">
                         
                             
                             <textarea type="text" name="proposal_description" class="border border-1 border-gray-400 bg-gray-50
@@ -166,13 +221,13 @@
 
                                   
     
-                        <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] mt-4">
+                        <div class="flex flex-col border-red-900 w-[85%] md:w-[60%] mt-4">
                             <button type="submit" class="border border-1 bg-gray-400 py-4 text-white 
                                            hover:bg-gray-500
                                            rounded-md text-lg" style="font-family:'Lato';font-weight:500;">Submit</button>
                         </div>
                         @else
-                            <div class="flex flex-col justify-center items-center mb-4 rounded-md bg-green-100 p-4 text-black w-[80%] md:w-[60%]">
+                            <div class="flex flex-col justify-center items-center mb-4 rounded-md bg-green-100 p-4 text-black w-[85%] md:w-[60%]">
                                 Thank you for submitting a proposal application for this call.
                             </div>          
                         @endif

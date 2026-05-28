@@ -1,9 +1,9 @@
 <x-admin-layout>
     <div class="container mx-auto">
         <!-- page header //-->
-        <section class="flex flex-col w-[95%] md:w-[95%] py-8 px-4 border-red-900 mx-auto">
+        <section class="flex flex-col w-[100%] md:w-[100%] py-8 px-4 md:px-0 border-red-900 mx-auto">
         
-            <div class="flex border-b border-gray-300 py-2 justify-between">
+            <div class="flex flex-col md:flex-row gap-y-2 border-b border-gray-300 py-2 md:justify-between">
                     <div >
                         <h1 class="text-2xl font-semibold font-serif text-gray-800">Call for Proposals</h1>
                     </div>
@@ -15,7 +15,7 @@
         </section>
         <!-- end of page header //-->
 
-        <section class="flex flex-col w-[95%] md:w-[95%] mx-auto px-4">
+        <section class="flex flex-col w-[95%] md:w-[100%] mx-auto px-0 mb-8">
             <table class="table-auto border-collapse border border-1 border-gray-200"  >
                 <tr class="bg-gray-200">
                     <td class="text-center font-semibold py-4 w-16">SN</td>
@@ -30,12 +30,12 @@
                             <td class="text-center py-8 w-16">{{ $index + 1 }}.</td>
                             <td class="py-8">
                                 <a href="{{ route('admin.call_for_proposals.show', $call_for_proposal->id) }}" class="text-blue-600 hover:underline">{{ $call_for_proposal->title }}</a>
-                                <div class='text-sm flex flex-row gap-x-5'>
+                                <div class='text-sm flex flex-row gap-x-5 flex-wrap'>
                                     <div>
                                         <a class="hover:underline" href="{{ route('admin.call_for_proposals.submissions',['call_for_proposal' => $call_for_proposal->id]) }}">Submissions ({{ $call_for_proposal->proposal_applications->count() }})</a>
                                     </div>
                                      <div>
-                                        <a class="hover:underline" href="">Reviews ({{ $call_for_proposal->reviews->count() }})</a>
+                                        <a class="hover:underline" href="">Sent for Review ({{ $call_for_proposal->reviews->count() }})</a>
                                     </div>
                                      <div>
                                         <a class="hover:underline" href="">Reviewed ()</a>

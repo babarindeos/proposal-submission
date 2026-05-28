@@ -14,13 +14,13 @@
             <!-- end of left side //-->
 
             <!-- second side //-->
-            <div class="flex flex-col justify-center w-4/5 max-w-4xl mx-auto">
+            <div class="flex flex-col justify-center w-full max-w-4xl mx-auto">
                 
                 <div class="border border-0">
                     <form  action="{{ route('admin.auth.login') }}" method="POST" class="flex flex-col mx-auto w-[80%] items-center justify-center md:items-start">
                         @csrf
 
-                        <div class="flex flex-col w-[80%] md:w-[60%] py-4 mt-4 font-serif" >
+                        <div class="flex flex-col w-[100%] md:w-[60%] py-4 mt-4 font-serif" >
                             <h2 class="font-semibold text-xl py-1" >Sign In</h2>
                             <div class='text-3xl text-gray-500'>Administrative Center </div>
                             
@@ -34,12 +34,12 @@
                         @if (session('error'))
 
                                     @if (session('status')=='success')
-                                        <span class="flex flex-col w-[80%] md:w-[60%] py-4 px-2 my-2 bg-green-50 rounded text-green-800 font-medium" 
+                                        <span class="flex flex-col w-[100%] md:w-[60%] py-4 px-2 my-2 bg-green-50 rounded text-green-800 font-medium" 
                                                 style="font-family:'Lato'; font-size:16px;"> 
                                             {{ session('message') }}
                                         </span>
                                     @else
-                                        <span class="flex flex-col w-[80%] md:w-[60%] py-4 px-2 my-2 bg-red-50 rounded text-red-800 font-medium" 
+                                        <span class="flex flex-col w-[100%] md:w-[60%] py-4 px-2 my-2 bg-red-50 rounded text-red-800 font-medium" 
                                                 style="font-family:'Lato'; font-size:16px;">
                                             {{ session('message') }}
                                         </span>
@@ -50,7 +50,7 @@
 
 
                         <!-- EMail //-->
-                        <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-3">
+                        <div class="flex flex-col border-red-900 w-[100%] md:w-[60%] py-3">
                             <!--<label for="email" class="font-semibold text-gray-700">Email</label> //-->
                             
                             <input type="text" name="email" class="border border-1 border-gray-400 bg-gray-50
@@ -76,7 +76,7 @@
 
 
                          <!-- Password //-->
-                         <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-3">
+                         <div class="flex flex-col border-red-900 w-[100%] md:w-[60%] py-3">
                             <!--<label for="password" class="font-semibold text-gray-700">Password</label> //-->
                             
                             <input type="password" name="password" class="border border-1 border-gray-400 bg-gray-50
@@ -101,7 +101,7 @@
                         <!-- end of Password //-->
 
                         <!-- submit button //-->
-                        <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-2">
+                        <div class="flex flex-col border-red-900 w-[100%] md:w-[60%] py-2">
                             <button type="submit" class="border border-1 bg-gray-400 py-4 text-white 
                                         hover:bg-gray-500
                                         rounded-md text-lg" style="font-family:'Lato';font-weight:500;">Sign In</button>

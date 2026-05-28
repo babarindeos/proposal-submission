@@ -16,10 +16,14 @@ class Guest_WelcomeController extends Controller
     public function index()
     {   
 
-        $call_for_proposals = CallForProposal::where('open_date', '<=', now())
+        /* $call_for_proposals = CallForProposal::where('open_date', '<=', now())
                                             ->where('close_date', '>=', now())
                                             ->orderBy('created_at', 'asc')
-                                            ->get();
+                                            ->get(); */
+        
+        $call_for_proposals = CallForProposal::orderBy('created_at', 'desc')->paginate(3);
+
+        
 
         return view('welcome', compact('call_for_proposals'));
     }

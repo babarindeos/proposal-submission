@@ -116,7 +116,7 @@ class Admin_CallForProposalController extends Controller
     public function status_update(Request $request, ProposalApplication $proposal_application)
     {
         $request->validate([
-            'status' => 'required|in:pending,accepted,rejected'
+            'status' => 'required|in:pending,acknowledged,accepted,rejected'
         ]);
 
 

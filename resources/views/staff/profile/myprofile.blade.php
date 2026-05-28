@@ -40,7 +40,7 @@
                     </div>
 
             </div>
-            <div class="flex flex-col justify-center md:border rounded-md md:w-[70%] py-2 px-4">
+            <div class="flex flex-col justify-start md:border rounded-md md:w-[70%] py-2 px-4">
                     <div class="flex py-2 justify-end px-4 space-x-2">
                             <a href="{{ route('staff.profile.myprofile.edit') }}" class="border px-4 py-1 rounded-md ring-0 
                                  border-gray-500 bg-gray-100 hover:shadow-md text-xs md:text-sm hover:font-semibold">
@@ -53,7 +53,7 @@
                             </a>
 
                             <a href="{{ route('staff.profile.my_signature') }}" class="border px-4 py-1 rounded-md ring-0 
-                                 border-gray-500 bg-gray-100 hover:shadow-md text-xs md:text-sm hover:font-semibold">
+                                 border-gray-500 bg-gray-100 hover:shadow-md text-xs md:text-sm hover:font-semibold hidden">
                                 My Signature
                             </a>
                     </div>
@@ -61,20 +61,13 @@
                             <div class="text-xl font-semibold">
                                     {{ Auth::user()->surname }} {{ Auth::user()->firstname }} {{ Auth::user()->middlename }}                                
                             </div>
-                            <div class="text-sm">
-                                    {{ Auth::user()->profile->designation}}, {{ Auth::user()->staff->fileno}}
+                            <div class="text-sm hidden">
+                                    {{ Auth::user()->profile->designation}}, {{ Auth::user()->profile->phone }}
                             </div>                            
                     </div>
 
 
-                    <div class="py-4 mx-[10%] md:mx-0">
-                                <div>
-                                        {{ $organ->name}} ({{ $organ->code}})
-                                </div>
-                                <div>
-                                        {{ $userprofile->segment->name }} 
-                                </div>                              
-                    </div>
+                    
 
 
                     <div class="py-4 mx-[10%] md:mx-0">

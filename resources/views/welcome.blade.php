@@ -3,55 +3,62 @@
 
     <div class="flex flex-col md:flex-row  ">
             <!-- left  panel //-->
-            <div class="flex flex-col w-full w-[90%] md:w-[70%] ">
-                    @if ($call_for_proposals->count())
+            <div class="order-2 md:order-1 flex flex-col w-full w-[90%] md:w-[70%] gap-6 mt-4 py-5">
+                @if ($call_for_proposals->count())
+                            @foreach ($call_for_proposals as $call_for_proposal)
+                                
+                            
+                                    <div class="mx-auto w-[95%] md:w-[90%] flex flex-col py-6 border rounded-md px-4 shadow-md border-green-700">
+                                            <div class='text-xl md:text-2xl font-semibold border-b border-gray-300 text-green-800'>{{ $call_for_proposal->title }}</div>
+                                            <div class='py-4'>{{ $call_for_proposal->description }}</div>
+                                            <div class="flex flex-col md:flex-row gap-x-20 ">
+                                                <div><strong>Opening Date:</strong> {{ Carbon\Carbon::parse($call_for_proposal->open_date)->format('l jS F, Y') }}</div>
+                                                <div><strong>Closing Date:</strong> {{ Carbon\Carbon::parse($call_for_proposal->close_date)->format('l jS F, Y') }}</div>
+                                            </div>
+                                            <div>
+                                            
+                                                    @php
+                                                        $advert = $call_for_proposal->advert;
+                                                    @endphp
 
-                        <div class="mx-auto w-[90%] md:w-[80%] flex flex-col py-8">
-                                <div class='text-2xl font-semibold border-b border-gray-300'>{{ $call_for_proposals->first()->title }}</div>
-                                <div class='py-4'>{{ $call_for_proposals->first()->description }}</div>
-                                <div class="flex flex-row gap-10 ">
-                                    <div><strong>Opening Date:</strong> {{ Carbon\Carbon::parse($call_for_proposals->first()->open_date)->format('l jS F, Y') }}</div>
-                                    <div><strong>Closing Date:</strong> {{ Carbon\Carbon::parse($call_for_proposals->first()->close_date)->format('l jS F, Y') }}</div>
-                                </div>
-                                <div>
-                                   
-                                        @php
-                                            $advert = optional($call_for_proposals->first())->advert;
-                                        @endphp
+                                                 
+                                                        <div class="flex flex-row justify-between items-center mt-4 border-0 ">
+                                                            
+                                                            <div>
+                                                                @if ($advert)
+                                                                    <a 
+                                                                        href="{{ asset('storage/'.$advert) }}" 
+                                                                        target="_blank"
+                                                                        class="text-blue-600 hover:underline text-md"
+                                                                    >
+                                                                        View Advert
+                                                                    </a>  
+                                                                 @endif
+                                                            </div>
+                                                           
+                                                            
+                                                            <div class="flex flex-col justify-center items-center border-0">
+                                                                    @if (\Carbon\Carbon::now()->between(\Carbon\Carbon::parse($call_for_proposal->open_date), \Carbon\Carbon::parse($call_for_proposal->close_date)))
+                                                                        <a href="#" class='font-semibold py-2 px-4 bg-green-500 text-white text-sm md:text-md rounded-md'>Login and Apply for this call</a>
+                                                                    @else
+                                                                        <div class='font-semibold py-2 px-4 bg-red-400 text-white text-sm md:text-md rounded-md'>Application has Closed</div>
+                                                                                    
+                                                                    @endif      
+                                                                    
+                                                            </div>     
+                                                        </div>
+                                                    
 
-                                        @if ($advert)
-                                            @php
-                                                $ext = strtolower(pathinfo($advert, PATHINFO_EXTENSION));
-                                                $imageExt = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-                                            @endphp
+                                            </div>
+                                    </div>
 
-                                            @if (in_array($ext, $imageExt))
-                                                <img 
-                                                    src="{{ asset('storage/'.$advert) }}" 
-                                                    alt="Call for Proposal Advert"
-                                                    class="mt-4 max-w-full h-auto rounded-md shadow-md"
-                                                >
-                                            @else
-                                                <a 
-                                                    href="{{ asset('storage/'.$advert) }}" 
-                                                    target="_blank"
-                                                    class="text-blue-600 hover:underline"
-                                                >
-                                                    View Advert
-                                                </a>
-                                            @endif
-                                        @else
-                                            <span class="text-gray-600 italic">
-                                                No advert uploaded for this call for proposal.
-                                            </span>
-                                        @endif
-
-                                </div>
-                        </div>
-                        
-                    @else
-                        <img src="{{ asset('images/goviflow_low.jpg') }}" />
-                    @endif
+                            @endforeach   
+                            
+                            <div class='px-3 md:px-14'>{{  $call_for_proposals->links() }}</div> 
+                   
+                @endif
+            
+                 
                     
             </div>
             <!-- end of left panel //-->
@@ -59,7 +66,7 @@
 
 
             <!-- Right  panel //-->
-            <div class="flex flex-col w-full  md:w-[30%] items-center justify-start py-8 bg-gray-50">
+            <div class="order-1 md:order-2 flex flex-col w-full md:w-[30%] items-center justify-start py-8 bg-gray-50">
 
                 <section class="flex flex-col w-full border border-0">
                     <div class="flex flex-col w-full border border-0" >

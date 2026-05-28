@@ -15,7 +15,7 @@
                     <!-- Name //-->
                     <div class="flex flex-col item-center justify-center">
                             <div class="text-white font-bold text-2xl font-serif">DRIP</div>
-                            <div class="text-white font-semibold font-serif text-xs opacity-70">Directorate of Research, Innovations and Partnerships</div>
+                            <div class="text-white font-semibold font-serif text-xs opacity-70 hidden md:flex">Directorate of Research, Innovations and Partnerships</div>
                                 
                     </div>
                     <!-- end of name //-->
@@ -71,10 +71,10 @@
             <div class="lg:hidden hidden" id="mobile-menu">
                 <a href="{{ route('staff.dashboard.index') }}" class="block text-white px-4 py-2 hover:bg-gray-700 rounded-md">Dashboard</a>
                              
-                <a href="{{ route('staff.document.index') }}" class="block text-white px-4 py-2 hover:bg-gray-700 rounded-md">Documents</a>
+                <a href="#" class="block text-white px-4 py-2 hover:bg-gray-700 rounded-md">Submissions</a>
                 <a href="{{ route('staff.profile.myprofile') }}" class="block text-white px-4 py-2 hover:bg-gray-700 rounded-md">Profile</a>
                 
-                <form action="{{ route('admin.auth.logout') }}" method="POST" class="block w-full">
+                <form action="{{ route('staff.auth.logout') }}" method="POST" class="block w-full">
                     @csrf
                     
                     <button type="submit" class="block w-full text-white px-4 py-2 hover:bg-gray-700 rounded-md">Sign Out</button>

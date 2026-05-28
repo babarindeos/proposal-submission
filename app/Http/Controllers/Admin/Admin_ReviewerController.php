@@ -62,4 +62,56 @@ class Admin_ReviewerController extends Controller
 
         return redirect()->back()->with($data);
     }
+
+    public function generate_uuid()
+    {
+        
+        $reviewers = Reviewer::get();
+        
+        foreach($reviewers as $reviewer)
+        {
+            if ($reviewer->uuid == null)
+            {
+                do
+                {
+                    $uuid = Str::orderedUuid();
+                }while(Reviewer::where('uuid', $uuid)->exists());
+
+                
+                $reviewer->uuid = $uuid;
+                $reviewer->save();
+            }
+            
+        }   
+
+        return redirect()->route('admin.reviewers.index');
+    }
+
+    public function fetch_reviewer(Request $request)
+    {
+
+        $reviewer_options = '';
+        $query = $request->get('search_term');
+
+        
+        $reviewers = Reviewer::where('name', 'LIKE', "%{$query}%")->get();
+
+         $reviewer_options = '';
+
+        if ($reviewers->count() > 0)
+        {
+            foreach($reviewers as $reviewer)
+            {
+                $staff = $reviewer->name;
+                $reviewer_options .= "<div class='py-3 border border-gray-500 cursor-pointer px-2' id='".$reviewer->id."'> ".$staff."</div>";
+            }
+        }
+        else
+        {
+            $reviewer_options = "<div class='py-3 border border-gray-500 cursor-pointer px-2'> No Reviewer found </div>";
+        }
+
+        return $reviewer_options;
+       
+    }
 }

@@ -23,9 +23,10 @@ class Admin_ProposalReviewerController extends Controller
     public function post_send_to_reviewer(Request $request, ProposalApplication $proposal_application)
     {
 
+        //dd($proposal_application);
         //dd($request);
 
-        $reviewer = Reviewer::where('id', $request->reviewer)->first();
+        $reviewer = Reviewer::where('id', $request->reviewer_id)->first();
 
         //dd($reviewer);
         
@@ -46,6 +47,15 @@ class Admin_ProposalReviewerController extends Controller
                 'message' => 'The proposal has been sent to the Reviewer'
             ];
 
+            $base_url = url('http://127.0.0.1:8000/');
+            $call_for_proposal = $proposal_application->call_for_proposal->uuid;
+            $proposal_application = $proposal_application->uuid;
+            $reviewer = $reviewer->uuid;
+            $review = $proposal_reviewer->uuid;
+
+            $link = $base_url.'call_for_proposals/'.$call_for_proposal.'/proposal_applications/'.$proposal_application.'/reviewers/'.$reviewer.'/reviews/'.$review.'/review';
+            //$review = 
+            //$link = call_for_proposals/{call_for_proposal}/proposal_applications/{proposal_application}/reviewers/{reviewer}/reviews/{review}/review
 
 
         }

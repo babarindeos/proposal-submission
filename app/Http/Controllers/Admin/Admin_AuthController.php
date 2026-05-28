@@ -26,6 +26,19 @@ class Admin_AuthController extends Controller
 
         ]);   
         */
+
+        /* 
+         User::create([
+            'fileno' => 'Admin001',
+            'firstname' => 'Adesola',
+            'surname' => 'Faronbi',
+            'middlename' => 'Olubunmi',
+            'email' => 'faronbiao@funaab.edu.ng',
+            'password' => bcrypt('6V3O[U9AG7"c'),
+            'role' => 'admin'
+
+        ]);   
+        */
         
 
         return view('admin.auth.login');

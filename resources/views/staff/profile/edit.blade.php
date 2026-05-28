@@ -1,6 +1,7 @@
 <x-staff-layout>
     <div class="flex flex-col w-4/5 border border-1 md:w-1/3 mx-auto items-center justify-center rounded-md mt-8 mb-8 shadow-md">
-        <form name="profile_create" action="{{ route('staff.profile.myprofile.update') }}" method="POST"  enctype="multipart/form-data" class="flex flex-col border border-1 justify-center items-center w-full">
+        <form name="profile_create" action="{{ route('staff.profile.myprofile.update') }}" method="POST"  enctype="multipart/form-data" 
+                class="flex flex-col border-0 justify-center items-center w-full">
             @csrf
             <div class="flex flex-col py-2 justify-center items-center font-semibold text-xl">
                     Edit Profile
@@ -18,10 +19,10 @@
             <!-- Display name, designation and fileno //-->
             <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-1">                             
                     <div class="mx-auto text-lg font-semibold">
-                            {{ Auth::user()->staff->surname }} {{ Auth::user()->staff->firstname }} {{ Auth::user()->staff->middlename }}
+                            {{ Auth::user()->surname }} {{ Auth::user()->firstname }} {{ Auth::user()->middlename }}
                     </div>
                     <div class="text-sm mx-auto">
-                            {{ Auth::user()->profile->designation }}, {{ Auth::user()->staff->fileno}}
+                            {{ Auth::user()->profile->designation }}
                     </div>
                     
             </div>

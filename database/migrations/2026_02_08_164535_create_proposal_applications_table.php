@@ -20,9 +20,10 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('principal_investigator');
             $table->string('proposal_title');   
+            $table->string('college_review');
             $table->text('proposal_description');
             $table->string('proposal_file')->nullable();
-            $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');    
+            $table->enum('status', ['pending', 'acknowledged', 'accepted', 'rejected'])->default('pending');    
             $table->timestamps();
         });
     }

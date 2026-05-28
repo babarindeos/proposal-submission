@@ -9,7 +9,7 @@ class ProposalApplication extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['uuid', 'user_id', 'call_for_proposal_id', 'proposal_file', 'principal_investigator', 'proposal_title', 'proposal_description', 'status'];
+    protected $fillable = ['uuid', 'user_id', 'call_for_proposal_id', 'proposal_title_file', 'proposal_file', 'college_review', 'principal_investigator', 'proposal_title', 'proposal_description', 'status'];
 
 
 
@@ -22,5 +22,10 @@ class ProposalApplication extends Model
     public function reviews()
     {
         return $this->hasMany(ProposalReviewers::class, 'proposal_application_id', 'id');
+    }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

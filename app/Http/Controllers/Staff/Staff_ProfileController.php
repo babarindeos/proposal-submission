@@ -146,9 +146,7 @@ class Staff_ProfileController extends Controller
         //$userprofile = Staff::where('fileno', $fileno)->first();
         $userprofile = $currentUser->staff;
 
-        $organ = OrganClass::getOrganBySegment($userprofile);
-
-        return view('staff.profile.myprofile', compact('userprofile', 'organ'));
+        return view('staff.profile.myprofile', compact('userprofile'));
     }
 
     public function edit()

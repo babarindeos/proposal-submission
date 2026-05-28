@@ -44,6 +44,10 @@ class CallForProposal extends Model
      }
 
 
+     public function reviewed()
+     {
+        
+     }
      
 
 }

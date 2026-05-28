@@ -5,11 +5,14 @@
         
             <div class="flex border-b border-gray-300 py-2 justify-between">
                     <div >
-                        <h1 class="text-2xl font-semibold font-serif text-gray-800">Reviwers</h1>
+                        <h1 class="text-2xl font-semibold font-serif text-gray-800">Reviewers</h1>
                     </div>
                     <div>
                             <a href="{{ route('admin.reviewers.create') }}" class="bg-green-600 text-white py-2 px-4 
                                             rounded-lg text-sm hover:bg-green-500">New Reviewer</a>
+
+                            <a href="{{ route('admin.reviewers.generate_uuid') }}" class="bg-white text-green-600 py-2 px-4 
+                                            rounded-lg text-sm hover:bg-green-500 hover:text-white border-green-600 border">Generate Uuid</a>
                     </div>
             </div>
         </section>

@@ -37,7 +37,7 @@ class Staff_DashboardController extends Controller
                                             ->where('close_date', '>=', now())
                                             ->orderBy('created_at', 'asc')
                                             ->get(); */
-            $call_for_proposals = CallForProposal::latest()->take(5)->get();
+            $call_for_proposals = CallForProposal::orderBy('id', 'desc')->latest()->take(5)->get();
 
             
         
