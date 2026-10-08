@@ -4,6 +4,10 @@
     <div class="flex flex-col md:flex-row  ">
             <!-- left  panel //-->
             <div class="order-2 md:order-1 flex flex-col w-full w-[90%] md:w-[70%] gap-6 mt-4 py-5">
+                <div class="mx-auto w-[95%] md:w-[90%] flex flex-row justify-between items-center">
+                    <h2 class="text-xl font-semibold font-serif text-gray-800">Calls for Proposals</h2>
+                    <a href="{{ route('guest.call_for_proposals.index') }}" class="text-green-700 hover:underline text-sm font-semibold">View All Calls</a>
+                </div>
                 @if ($call_for_proposals->count())
                             @foreach ($call_for_proposals as $call_for_proposal)
                                 
@@ -38,8 +42,10 @@
                                                            
                                                             
                                                             <div class="flex flex-col justify-center items-center border-0">
-                                                                    @if (\Carbon\Carbon::now()->between(\Carbon\Carbon::parse($call_for_proposal->open_date), \Carbon\Carbon::parse($call_for_proposal->close_date)))
-                                                                        <a href="#" class='font-semibold py-2 px-4 bg-green-500 text-white text-sm md:text-md rounded-md'>Login and Apply for this call</a>
+                                                                    @if ($call_for_proposal->isOpen())
+                                                                        <a href="#signin" class='font-semibold py-2 px-4 bg-green-500 text-white text-sm md:text-md rounded-md'>Login and Apply for this call</a>
+                                                                    @elseif ($call_for_proposal->computed_status === 'Upcoming')
+                                                                        <div class='font-semibold py-2 px-4 bg-blue-400 text-white text-sm md:text-md rounded-md'>Opens {{ $call_for_proposal->open_date->format('M jS, Y') }}</div>
                                                                     @else
                                                                         <div class='font-semibold py-2 px-4 bg-red-400 text-white text-sm md:text-md rounded-md'>Application has Closed</div>
                                                                                     
@@ -66,7 +72,7 @@
 
 
             <!-- Right  panel //-->
-            <div class="order-1 md:order-2 flex flex-col w-full md:w-[30%] items-center justify-start py-8 bg-gray-50">
+            <div id="signin" class="order-1 md:order-2 flex flex-col w-full md:w-[30%] items-center justify-start py-8 bg-gray-50">
 
                 <section class="flex flex-col w-full border border-0">
                     <div class="flex flex-col w-full border border-0" >

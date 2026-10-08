@@ -13,6 +13,7 @@ use App\Models\Office;
 use Illuminate\Support\Facades\DB;
 use App\Models\CallForProposal;
 use App\Models\ProposalApplication;
+use App\Models\Reviewer;
 
 class Admin_DashboardController extends Controller
 {
@@ -27,6 +28,7 @@ class Admin_DashboardController extends Controller
         $offices_count = Office::count();
         $call_for_proposals_count = CallForProposal::count();
         $proposal_applications_count = ProposalApplication::count();
+        $reviewers_count = Reviewer::count();
 
         // directorate documents
         /*  $segment_documents = DB::table("documents")
@@ -166,7 +168,8 @@ class Admin_DashboardController extends Controller
             "workflows_count" => $workflows_count,
             "departments_count" => $departments_count,
             "call_for_proposals_count" => $call_for_proposals_count,
-            "proposal_applications_count" => $proposal_applications_count
+            "proposal_applications_count" => $proposal_applications_count,
+            "reviewers_count" => $reviewers_count
         ]);
 
     }

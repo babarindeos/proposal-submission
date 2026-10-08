@@ -85,7 +85,6 @@ Route::get('/check_auth', [Guest_WelcomeController::class, 'check_auth'])->name(
 
 Route::middleware(['guest'])->group(function(){
        Route::get('/', [Guest_WelcomeController::class, 'index'])->name('welcome');
-       Route::get('/call_for_proposals', [Guest_WelcomeController::class, 'call_for_proposals'])->name('guest.call_for_proposals.index');
        Route::post('/guest_logout', [Guest_WelcomeController::class, 'logout'])->name('guest.auth.logout');
 
 
@@ -102,16 +101,10 @@ Route::middleware(['guest'])->group(function(){
 
        
 
+        Route::get('call_for_proposals/{call_for_proposal}/proposal_applications/{proposal_application}/reviewers/{reviewer}/reviews/{review}/review', [Guest_CallForProposalController::class, 'get_review'])->name('guests.call_for_proposals.proposal_applications.review');
+        Route::post('call_for_proposals/{call_for_proposal}/proposal_applications/{proposal_application}/reviewers/{reviewer}/reviews/{review}/review', [Guest_CallForProposalController::class, 'post_review'])->name('guests.call_for_proposals.proposal_applications.review.store');
 
 });
-
-// External reviewers have no account, so their review link is public. It is
-// deliberately OUTSIDE the 'guest' middleware group above: that group bounces
-// any logged-in user to the dashboard, which would stop an admin (or a staff
-// member) from opening a review link while signed in.
-Route::get('call_for_proposals/{call_for_proposal}/proposal_applications/{proposal_application}/reviewers/{reviewer}/reviews/{review}/review', [Guest_CallForProposalController::class, 'get_review'])->name('guests.call_for_proposals.proposal_applications.review');
-Route::post('call_for_proposals/{call_for_proposal}/proposal_applications/{proposal_application}/reviewers/{reviewer}/reviews/{review}/review', [Guest_CallForProposalController::class, 'post_review'])->name('guests.call_for_proposals.proposal_applications.review.store');
-
 
 
 
@@ -181,7 +174,6 @@ Route::prefix('staff')->middleware(['auth', 'staff'])->group(function(){
     Route::get('/categories/create', [Staff_CategoryController::class, 'create'])->name('staff.categories.create');
     Route::post('/categories/store', [Staff_CategoryController::class, 'store'])->name('staff.categories.store');
 
-    Route::get('/call_for_proposals', [Staff_ProposalApplicationController::class, 'index'])->name('staff.call_for_proposals.index');
     Route::get('/call_for_proposals/{uuid}/application', [Staff_ProposalApplicationController::class, 'application'])->name('staff.call_for_proposals.application');
     Route::post('/call_for_proposals/{uuid}/application', [Staff_ProposalApplicationController::class, 'store_application'])->name('staff.call_for_proposals.application.store');   
 });
@@ -375,10 +367,12 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
 
     Route::get('call_for_proposals/{call_for_proposal}/edit', [Admin_CallForProposalController::class, 'edit'])->name('admin.call_for_proposals.edit');
     Route::post('call_for_proposals/{call_for_proposal}/update', [Admin_CallForProposalController::class, 'update'])->name('admin.call_for_proposals.update');
-    Route::delete('call_for_proposals/{call_for_proposal}/destroy', [Admin_CallForProposalController::class, 'destroy'])->name('admin.call_for_proposals.destroy');
+
+
+    Route::get('call_for_proposals/{call_for_proposal}/call_for_proposal/edit', [Admin_CallForProposalController::class, 'edit'])->name('admin.call_for_proposals.edit');
+    Route::post('call_for_proposals/{call_for_proposal}/call_for_proposal/update', [Admin_CallForProposalController::class, 'update'])->name('admin.call_for_proposals.update');
 
     Route::get('call_for_proposals/{call_for_proposal}/submissions', [Admin_CallForProposalController::class, 'submissions'])->name('admin.call_for_proposals.submissions');
-    Route::get('call_for_proposals/{call_for_proposal}/results', [Admin_CallForProposalController::class, 'results'])->name('admin.call_for_proposals.results');
     Route::get('call_for_proposals/{call_for_proposal}/proposal_applications/{proposal_application}/proposal_application', [Admin_CallForProposalController::class, 'proposal_application'])->name('admin.call_for_proposals.proposal_application');
     
     Route::post('call_for_proposals/proposal_applications/{proposal_application}/proposal_application/status_update', [Admin_CallForProposalController::class, 'status_update'])->name('admin.call_for_proposals.proposal_application.status_update');
@@ -401,7 +395,6 @@ Route::prefix('admin')->middleware(['auth','admin'])->group(function(){
     Route::post('call_for_proposals/proposal_applications/{proposal_application}/proposal_application/send_to_reviewer', [Admin_ProposalReviewerController::class, 'post_send_to_reviewer'])->name('admin.call_for_proposals.proposal_application.send_to_reviewer.store');
     
     Route::delete('call_for_proposals/proposal_applications/{proposal_reviewer}/delete', [Admin_ProposalReviewerController::class, 'destroy'])->name('admin.call_for_proposals.proposal_application.proposal_reviewer.destroy');
-    Route::post('call_for_proposals/proposal_applications/{proposal_reviewer}/resend', [Admin_ProposalReviewerController::class, 'resend'])->name('admin.call_for_proposals.proposal_application.proposal_reviewer.resend');
 
 
 

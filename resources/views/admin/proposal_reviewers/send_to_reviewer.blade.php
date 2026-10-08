@@ -55,7 +55,7 @@
                                                                     
                                                                     />
                                                                     <span><div class='text-sm  py-1'><b>Edited:</b> <a target='_blank' class='underline text-blue-700' href="{{ asset('storage/'.$proposal_application->proposal_file) }}">{{ $proposal_application->proposal_file }}</a></div></span>                                                                   
-                                                                    <span><div class='text-sm  py-1'><b>Original:</b> <a target='_blank' class='underline text-blue-700' href="{{ asset('storage/'.$proposal_application->original_file) }}">{{ $proposal_application->original_file }}</a></div></span>                                                                   
+                                                                    <span><div class='text-sm  py-1'><b>Title Page:</b> <a target='_blank' class='underline text-blue-700' href="{{ asset('storage/'.$proposal_application->proposal_title_file) }}">{{ $proposal_application->proposal_title_file }}</a></div></span>
                                                                     
     
                                                                     @error('title')
@@ -92,6 +92,12 @@
                                                                                     {{$message}}
                                                                                 </span>
                                                                             @enderror
+
+                                                                            @error('reviewer_id')
+                                                                                <span class="text-red-700 text-sm">
+                                                                                    {{$message}}
+                                                                                </span>
+                                                                            @enderror
                                     
                         </div>                                
                         <!-- end of Reviewer //-->  
@@ -119,25 +125,21 @@
         <!-- End of Create Call for Proposals Section //-->
 
 
-         <section class="py-2 mt-1 border-0 w-[60%] mx-auto mb-5">
+         <section class="py-2 mt-1 border-0 w-[90%] md:w-[80%] mx-auto mb-5">
                 <div>
                     <div class="flex flex-col mx-auto w-full md:w-[95%] items-start justify-start">
                         <table class='w-full'>
                             <tr class='border' >
-                                <td class='text-gray-800 p-4 font-semibold border' colspan='3'>
+                                <td class='text-gray-800 p-4 font-semibold border' colspan='5'>
                                      Reviewers ({{ $proposal_application->reviews->count() }})
                                 </td>
                             </tr>
-                            <tr class='border' >
-                                <td class='text-gray-800 p-4 font-semibold border' >
-                                     SN 
-                                </td>
-                                 <td class='text-gray-800 p-4 font-semibold border' >
-                                     Names
-                                </td>
-                                 <td class='text-gray-800 p-4 font-semibold border' >
-                                     Action
-                                </td>
+                            <tr class='border bg-gray-100' >
+                                <td class='text-gray-800 p-4 font-semibold border' >SN</td>
+                                <td class='text-gray-800 p-4 font-semibold border' >Names</td>
+                                <td class='text-gray-800 p-4 font-semibold border' >Status</td>
+                                <td class='text-gray-800 p-4 font-semibold border' >Review Link</td>
+                                <td class='text-gray-800 p-4 font-semibold border' >Action</td>
                             </tr>
                             <tbody>
                                  @php
@@ -145,32 +147,60 @@
                                  @endphp
 
                                  @foreach($proposal_application->reviews as $review)
-                                        <tr class='border'>
-                                            <td class='border-0 text-center' width='10%'> {{ ++$counter }}.</td>
-                                            <td class='py-4 px-4' width='80%'>
+                                        @php
+                                            $link = $review->review_link ?: $review->buildReviewLink();
+                                        @endphp
+                                        <tr class='border align-top'>
+                                            <td class='border text-center py-4' width='6%'> {{ ++$counter }}.</td>
+                                            <td class='py-4 px-4 border' width='20%'>
                                                 <div>{{ $review->reviewer->name }}</div>
+                                                <div class='text-xs text-gray-500'>{{ $review->reviewer->email }}</div>
                                             </td>
-                                            <td class='border-0'>
-                                                <form action='' method='post'>
-                                                    @csrf
-                                                    <button type='submit' class='text-xs border rounded-md py-2 px-4 border-red-500 '>Remove</button>
-                                                </form>
+                                            <td class='border p-4 text-sm' width='16%'>
+                                                @if ($review->is_reviewed)
+                                                        <div class='text-green-700 font-semibold'>Review has been done</div>
+                                                @else
+                                                        <div class='text-amber-600 font-semibold'>Awaiting Review</div>
+                                                @endif
+                                                <div class='text-xs mt-1'>
+                                                    @if ($review->emailed_at)
+                                                        <span class='text-green-700'>Emailed {{ $review->emailed_at->format('M j, Y g:i A') }}</span>
+                                                    @elseif ($review->email_error)
+                                                        <span class='text-red-600' title="{{ $review->email_error }}">Email failed - send the link manually</span>
+                                                    @else
+                                                        <span class='text-gray-500'>Not emailed yet</span>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                            <td class='border p-4' width='34%'>
+                                                <input type='text' readonly value="{{ $link }}" id="link-{{ $review->id }}" onclick="this.select()"
+                                                       class='w-full border border-gray-300 bg-gray-50 rounded-md p-2 text-xs' />
+                                                <button type='button' onclick="copyLink('link-{{ $review->id }}', this)"
+                                                        class='mt-2 text-xs border rounded-md py-1 px-3 border-blue-500 text-blue-700 hover:bg-blue-50'>Copy link</button>
+                                            </td>
+                                            <td class='border p-4' width='24%'>
+                                                @if ($review->is_reviewed)
+                                                    <span class='text-xs text-gray-500'>Locked - review submitted</span>
+                                                @else
+                                                    <div class='flex flex-col gap-y-2'>
+                                                        <form action="{{ route('admin.call_for_proposals.proposal_application.proposal_reviewer.resend', ['proposal_reviewer' => $review->id]) }}" method='post'>
+                                                            @csrf
+                                                            <button type='submit' class='text-xs border rounded-md py-2 px-4 border-blue-500 text-blue-700 hover:bg-blue-50'>Resend email</button>
+                                                        </form>
+                                                        <form action="{{ route('admin.call_for_proposals.proposal_application.proposal_reviewer.destroy', ['proposal_reviewer' => $review->id]) }}" method='post' onsubmit="return confirm('Remove this reviewer from the proposal?');">
+                                                            @csrf
+                                                            @method('delete')
+                                                            <button type='submit' class='text-xs border rounded-md py-2 px-4 border-red-500 '>Remove</button>
+                                                        </form>
+                                                    </div>
+                                                @endif
                                             </td>
                                         </tr>
                                 @endforeach
 
                             </tbody>
                         </table>
-                        
-
-                       
-                        
-
-                        
                     </div>
-                   
-                        
-                    
                 </div>
          </section>
     
@@ -181,6 +211,26 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function copyLink(inputId, btn) {
+        var input = document.getElementById(inputId);
+        input.select();
+        input.setSelectionRange(0, 99999);
+
+        var done = function () {
+            var original = btn.textContent;
+            btn.textContent = 'Copied!';
+            setTimeout(function () { btn.textContent = original; }, 1500);
+        };
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(input.value).then(done);
+        } else {
+            document.execCommand('copy');
+            done();
+        }
+    }
+</script>
 <script>
     $(document).ready(function(){
             $("#reviewer").bind("keyup", function(){

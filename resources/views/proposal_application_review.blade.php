@@ -141,7 +141,7 @@
             
                                 <div class="flex flex-col w-[90%] md:w-[60%] py-2 md:py-4" style="font-family:'Lato'; font-size:18px; font-weight:400;">
                                 <h2 class="font-semibold text-xl py-1 text-center" >PROPOSAL HAS BEEN REVIEWED</h2>
-                                <div>Thank you for taking the time and effort to review the proposal.</div>
+                                <div class='text-center'>Thank you for taking the time and effort to review the proposal.</div>
                                     
                                 </div>
                             </div>

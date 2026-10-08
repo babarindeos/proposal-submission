@@ -189,6 +189,26 @@
                         </div><!-- end of Description //--> 
 
 
+                        <!-- Status //-->
+                        <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-3">
+                            <div class='px-1 py-1'>Status</div>
+                            <select name="status" class="border border-1 border-gray-400 bg-gray-50
+                                                                    w-full p-4 rounded-md
+                                                                    focus:outline-none
+                                                                    focus:border-blue-500
+                                                                    focus:ring
+                                                                    focus:ring-blue-100"
+                                                                    style="font-family:'Lato';font-size:16px;font-weight:500;">
+                                <option value="" {{ old('status') == '' ? 'selected' : '' }}>Publish (Open/Closed automatically based on dates)</option>
+                                <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Save as Draft (hidden from staff/public)</option>
+                            </select>
+                            <div class="text-sm text-gray-500 mt-1">A call is automatically shown as Open, Upcoming or Closed based on the dates above. Choose Draft to keep it hidden while you're still preparing it.</div>
+
+                            @error('status')
+                                <span class="text-red-700 text-sm">{{$message}}</span>
+                            @enderror
+                        </div><!-- end of Status //-->
+
 
                                   
     

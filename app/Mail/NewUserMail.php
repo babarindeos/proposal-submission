@@ -31,7 +31,7 @@ class NewUserMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New User Mail',
+            subject: 'Your DRIP portal login details',
             
         );
     }

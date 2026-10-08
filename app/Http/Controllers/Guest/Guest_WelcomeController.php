@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\CallForProposal;
 use App\Models\User;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewUserMail;
 
 class Guest_WelcomeController extends Controller
 {
@@ -16,16 +19,33 @@ class Guest_WelcomeController extends Controller
     public function index()
     {   
 
-        /* $call_for_proposals = CallForProposal::where('open_date', '<=', now())
-                                            ->where('close_date', '>=', now())
-                                            ->orderBy('created_at', 'asc')
-                                            ->get(); */
-        
-        $call_for_proposals = CallForProposal::orderBy('created_at', 'desc')->paginate(3);
+        $call_for_proposals = CallForProposal::where(function ($q) {
+                                                $q->whereNull('status')
+                                                  ->orWhereNotIn('status', [CallForProposal::STATUS_DRAFT]);
+                                              })
+                                              ->orderBy('created_at', 'desc')
+                                              ->paginate(3);
 
         
 
         return view('welcome', compact('call_for_proposals'));
+    }
+
+
+    /**
+     * Full listing of every call for proposals (open, upcoming and closed),
+     * separate from the homepage which only teases the 3 most recent.
+     */
+    public function call_for_proposals()
+    {
+        $call_for_proposals = CallForProposal::where(function ($q) {
+                                                $q->whereNull('status')
+                                                  ->orWhereNotIn('status', [CallForProposal::STATUS_DRAFT]);
+                                              })
+                                              ->orderBy('close_date', 'desc')
+                                              ->paginate(10);
+
+        return view('call_for_proposals', compact('call_for_proposals'));
     }
 
 
@@ -36,41 +56,50 @@ class Guest_WelcomeController extends Controller
 
     public function store(Request $request)
     {
-            // Registration logic will go here
             $formFields = $request->validate([
                 'surname' => 'required|string|max:255',
                 'firstname' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users'
             ]);
 
-            $formFields['middlename'] = $request->input('middlename');
-            $formFields['password'] =  bcrypt(Str::substr(Str::uuid(), 0,6));
-
+            // Keep the plain-text password: it is emailed to the user below.
+            // (Only the hash is stored, so it can't be recovered afterwards.)
+            $plain_password = Str::random(10);
 
             try
             {
+                DB::beginTransaction();
+
                 $user = new User();
                 $user->surname = $formFields['surname'];
                 $user->firstname = $formFields['firstname'];
-                $user->middlename = $formFields['middlename'];
+                $user->middlename = $request->input('middlename');
                 $user->email = $formFields['email'];
-                $user->password = $formFields['password'];
+                $user->password = bcrypt($plain_password);
                 $user->role = 'staff';
                 $user->save();
 
-                // Optionally, you can log the user in immediately after registration
-                // Auth::login($user);
+                // Unlike other notifications, this email IS the point of
+                // registering - it's the only way the person learns their
+                // password. If it can't be sent, the account is rolled back
+                // so they can simply register again.
+                Mail::to($user->email)->send(new NewUserMail([
+                    'fullname' => trim($user->firstname.' '.$user->surname),
+                    'username' => $user->email,
+                    'password' => $plain_password,
+                ]));
 
+                DB::commit();
 
-
-                return redirect()->route('guest.auth.register')->with('success', 'Your login credentials has been sent to your email');
+                return redirect()->route('guest.auth.register')->with('success', 'Your login details have been sent to '.$user->email.'. Please check your inbox (and spam folder).');
             }
-            catch (\Exception $e)
+            catch (\Throwable $e)
             {
-                return back()->withErrors(['error' => 'An error occurred. Please try again.']);
-            }
+                DB::rollBack();
+                report($e);
 
-            
+                return back()->withInput()->withErrors(['error' => 'We could not email your login details, so your account was not created. Please try again shortly, or contact DRIP if this keeps happening.']);
+            }
     }   
 
 

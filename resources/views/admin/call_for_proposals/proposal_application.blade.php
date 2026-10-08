@@ -292,6 +292,11 @@
                                                                             {{$message}}
                                                                         </span>
                                                                     @enderror
+
+                            <label class="flex items-start gap-x-2 mt-2 text-sm text-gray-700">
+                                <input type="checkbox" name="share_remark" value="1" class="mt-1">
+                                <span>Include this remark in the email to the applicant. Leave unticked to keep it internal.</span>
+                            </label>
                             
                         </div><!-- end of Description //--> 
 

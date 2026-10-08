@@ -7,11 +7,35 @@ use Illuminate\Http\Request;
 use App\Models\CallForProposal;
 use \Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
-use App\Models\ProposalApplication; 
+use App\Models\ProposalApplication;
+use App\Http\Classes\Notifier;
+use App\Mail\ApplicationSubmittedMail;
+use App\Mail\NewApplicationAdminMail; 
 
 class Staff_ProposalApplicationController extends Controller
 {
     //
+    /**
+     * Full listing of calls for proposals for a logged-in staff member —
+     * previously there was no page for this; staff could only reach a call
+     * via a direct link from the homepage teaser.
+     */
+    public function index()
+    {
+        $call_for_proposals = CallForProposal::where(function ($q) {
+                                                $q->whereNull('status')
+                                                  ->orWhereNotIn('status', [CallForProposal::STATUS_DRAFT]);
+                                              })
+                                              ->orderBy('close_date', 'desc')
+                                              ->get();
+
+        $applied_call_ids = ProposalApplication::where('user_id', Auth::id())
+                                                 ->pluck('call_for_proposal_id')
+                                                 ->toArray();
+
+        return view('staff.proposals.index', compact('call_for_proposals', 'applied_call_ids'));
+    }
+
     public function application($uuid)
     {
         $call_for_proposal = CallForProposal::where('uuid', $uuid)->firstOrFail();
@@ -25,21 +49,40 @@ class Staff_ProposalApplicationController extends Controller
 
     public function store_application(Request $request, $uuid)
     {
+        $call_for_proposal = CallForProposal::where('uuid', $uuid)->firstOrFail();
+
+        // Block submissions to a call that is no longer open, even if someone
+        // still has the application link/page open in their browser.
+        if (!$call_for_proposal->isOpen())
+        {
+            return redirect()->route('staff.call_for_proposals.application', ['uuid' => $uuid])
+                              ->with(['error' => true, 'status' => 'fail', 'message' => 'This call is no longer open for applications.']);
+        }
+
+        $has_submitted_application = ProposalApplication::where('user_id', Auth::id())
+                                                ->where('call_for_proposal_id', $call_for_proposal->id)
+                                                ->exists();
+
+        if ($has_submitted_application)
+        {
+            return redirect()->route('staff.call_for_proposals.application', ['uuid' => $uuid])
+                              ->with(['error' => true, 'status' => 'fail', 'message' => 'You have already submitted an application for this call.']);
+        }
+
+        // validate the application form fields — kept outside the try/catch below
+        // so a validation failure redirects back with the usual field errors
+        // instead of being swallowed as a generic exception.
+        $request->validate([
+            'principal_investigator' => 'required|string|max:255',
+            'proposal_title' => 'required|string|max:255',
+            'proposal_title_file' => 'required|file|mimes:doc,docx,pdf,odt|max:20480', // max file size of 20MB
+            'proposal_file' => 'required|file|mimes:doc,docx,pdf,odt|max:20480', // max file size of 20MB
+            'college_review' => 'required|file|mimes:doc,docx,pdf,odt|max:20480', // max file size of 20MB
+            'proposal_description' => 'required|string|max:5000'
+        ]);
+
         try
         {
-                $call_for_proposal = CallForProposal::where('uuid', $uuid)->firstOrFail();
-
-                // validate the application form fields
-                $request->validate([
-                    'principal_investigator' => 'required|string|max:255',
-                    'proposal_title' => 'required|string|max:255',
-                    'proposal_title_file' => 'required|file|mimes:doc,docx,pdf,odt|max:20480', // max file size of 20MB
-                    'proposal_file' => 'required|file|mimes:doc,docx,pdf,odt|max:20480', // max file size of 20MB
-                    'college_review' => 'required|file|mimes:doc,docx,pdf,odt|max:20480', // max file size of 20MB
-                    'proposal_description' => 'required|string|max:5000'
-                ]);
-
-
                 // handle the uploaded proposal title file
                 if ($request->hasFile('proposal_title_file'))
                 {
@@ -84,7 +127,7 @@ class Staff_ProposalApplicationController extends Controller
                     // you can create a ProposalApplication model and save the details there
                     // for example:
                     
-                    ProposalApplication::create([
+                    $application = ProposalApplication::create([
                         'uuid' => Str::orderedUuid(),
                         'user_id' => Auth::id(),
                         'call_for_proposal_id' => $call_for_proposal->id,
@@ -98,9 +141,25 @@ class Staff_ProposalApplicationController extends Controller
         }
         catch (\Exception $e)
         {
-            dd($e->getMessage());
+            report($e); // logs the full exception for admins/devs to review
+
+            return redirect()->route('staff.call_for_proposals.application', ['uuid' => $uuid])
+                              ->withInput()
+                              ->with(['error' => true, 'status' => 'fail', 'message' => 'Something went wrong while submitting your application. Please try again, and contact DRIP support if the problem continues.']);
         }
-                    
+
+
+        // The application is saved at this point. The emails below are a
+        // courtesy: Notifier::send() never throws, so a mail problem can't
+        // undo or block the submission.
+        $application->load('owner', 'call_for_proposal');
+
+        Notifier::send(Auth::user()->email, new ApplicationSubmittedMail($application), 'application submitted - applicant');
+
+        $admin_recipients = Notifier::admin_recipients();
+        if (!empty($admin_recipients)) {
+            Notifier::send($admin_recipients, new NewApplicationAdminMail($application), 'application submitted - admin alert');
+        }
 
         return redirect()->route('staff.call_for_proposals.application', ['uuid' => $uuid])->with('success', 'Your proposal application has been submitted successfully.');
     }

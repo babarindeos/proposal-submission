@@ -94,7 +94,7 @@
                             <div class="flex flex-row">
                                     <div class="flex flex-col flex-1 w-3/4">
                                         <div class="text-white text-3xl">
-                                            {{ number_format($departments_count)}}
+                                            {{ number_format($reviewers_count)}}
                                         </div>                            
                                     
                                         <div class="text-sm text-white font-normal">

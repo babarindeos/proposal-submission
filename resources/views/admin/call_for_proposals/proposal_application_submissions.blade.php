@@ -8,7 +8,9 @@
                         <div class="text-lg font-semibold font-serif text-gray-800">Applications</div>
                         <div class="text-xl font-semibold font-serif text-gray-800">{{ $call_for_proposal->title }}</div>
                     </div>
-                    <div>
+                    <div class="flex gap-x-2">
+                            <a href="{{ route('admin.call_for_proposals.results',['call_for_proposal' => $call_for_proposal->id]) }}" class="bg-blue-600 text-white py-2 px-4
+                                            rounded-lg text-sm hover:bg-blue-500">View Results</a>
                             <a href="{{ route('admin.call_for_proposals.index') }}" class="bg-green-600 text-white py-2 px-4 
                                             rounded-lg text-sm hover:bg-green-500">Call for Proposals</a>
                     </div>
@@ -23,6 +25,7 @@
                     <td width="40%" class="font-semibold py-2">Title</td>
                     <td width="25%" class="font-semibold py-2">Principal Investigator (PI)</td>                   
                     <td width="10%" class="font-semibold py-2">Status</td>
+                    <td width="12%" class="font-semibold py-2 text-center">Reviewed</td>
                     <td width="10%" class="font-semibold py-2 text-center">Action</td>
                 </tr>
                 <tbody>
@@ -51,12 +54,23 @@
                             <td class="py-8">
                                 @if ($application->status == 'pending')
                                     <span class="text-amber-600 font-semibold">Pending</span>
+                                @elseif ($application->status == 'acknowledged')
+                                    <span class="text-blue-600 font-semibold">Acknowledged</span>
                                 @elseif ($application->status == 'accepted')
                                     <span class="text-green-600 font-semibold">Accepted</span> 
                                 @elseif ($application->status == 'rejected')
                                     <span class="text-red-600 font-semibold">Rejected</span>                  
                                 @endif              
                             </td>                      
+                            <td class="text-center py-2 py-8">
+                                @if ($application->reviewers_assigned_count > 0)
+                                    <span class="@if($application->review_complete) text-green-700 @else text-amber-600 @endif font-semibold text-sm">
+                                        {{ $application->reviewers_completed_count }} / {{ $application->reviewers_assigned_count }}
+                                    </span>
+                                @else
+                                    <span class="text-gray-400 text-sm">Not sent</span>
+                                @endif
+                            </td>
                             <td class="text-center py-2">              
                                 <div>              
                                      <a href="{{ route('admin.call_for_proposals.proposal_application.send_to_reviewer',['proposal_application'=>$application->id]) }}" class="hover:bg-blue-600 border bg-blue-500 text-white py-2 px-2 text-xs rounded-md">Send to Reviewer</a> 

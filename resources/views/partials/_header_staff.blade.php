@@ -35,7 +35,7 @@
                             <a href='{{ route('staff.dashboard.index') }}' class="flex font-semibold items-center text-white hover:border-b-yellow-100 hover:border-b-4 mx-2 ">Dashboard</a>
 
                                               
-                            <a  href='#' class="flex font-semibold items-center text-white hover:border-b-yellow-100 hover:border-b-4 mx-3 ">Submissions</a>
+                            <a  href='{{ route('staff.call_for_proposals.index') }}' class="flex font-semibold items-center text-white hover:border-b-yellow-100 hover:border-b-4 mx-3 ">Call for Proposals</a>
                             
                             
                             <div class="relative group flex">
@@ -71,7 +71,7 @@
             <div class="lg:hidden hidden" id="mobile-menu">
                 <a href="{{ route('staff.dashboard.index') }}" class="block text-white px-4 py-2 hover:bg-gray-700 rounded-md">Dashboard</a>
                              
-                <a href="#" class="block text-white px-4 py-2 hover:bg-gray-700 rounded-md">Submissions</a>
+                <a href="{{ route('staff.call_for_proposals.index') }}" class="block text-white px-4 py-2 hover:bg-gray-700 rounded-md">Call for Proposals</a>
                 <a href="{{ route('staff.profile.myprofile') }}" class="block text-white px-4 py-2 hover:bg-gray-700 rounded-md">Profile</a>
                 
                 <form action="{{ route('staff.auth.logout') }}" method="POST" class="block w-full">

@@ -190,6 +190,27 @@
                         </div><!-- end of Description //--> 
 
 
+                        <!-- Status //-->
+                        <div class="flex flex-col border-red-900 w-[80%] md:w-[60%] py-3">
+                            <div class='px-1 py-1'>Status</div>
+                            <select name="status" class="border border-1 border-gray-400 bg-gray-50
+                                                                    w-full p-4 rounded-md
+                                                                    focus:outline-none
+                                                                    focus:border-blue-500
+                                                                    focus:ring
+                                                                    focus:ring-blue-100"
+                                                                    style="font-family:'Lato';font-size:16px;font-weight:500;">
+                                <option value="" {{ old('status', $call_for_proposal->status) == '' ? 'selected' : '' }}>Publish (Open/Closed automatically based on dates)</option>
+                                <option value="draft" {{ old('status', $call_for_proposal->status) == 'draft' ? 'selected' : '' }}>Save as Draft (hidden from staff/public)</option>
+                                <option value="archived" {{ old('status', $call_for_proposal->status) == 'archived' ? 'selected' : '' }}>Archive (keep records, hide from staff/public)</option>
+                            </select>
+                            <div class="text-sm text-gray-500 mt-1">Archive a call instead of deleting it once it has submissions — its records stay intact but it's hidden from staff and the public.</div>
+
+                            @error('status')
+                                <span class="text-red-700 text-sm">{{$message}}</span>
+                            @enderror
+                        </div><!-- end of Status //-->
+
 
                                   
     

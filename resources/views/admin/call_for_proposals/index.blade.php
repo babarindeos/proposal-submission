@@ -35,25 +35,26 @@
                                         <a class="hover:underline" href="{{ route('admin.call_for_proposals.submissions',['call_for_proposal' => $call_for_proposal->id]) }}">Submissions ({{ $call_for_proposal->proposal_applications->count() }})</a>
                                     </div>
                                      <div>
-                                        <a class="hover:underline" href="">Sent for Review ({{ $call_for_proposal->reviews->count() }})</a>
+                                        <a class="hover:underline" href="{{ route('admin.call_for_proposals.submissions',['call_for_proposal' => $call_for_proposal->id]) }}">Sent for Review ({{ $call_for_proposal->reviews->count() }})</a>
                                     </div>
                                      <div>
-                                        <a class="hover:underline" href="">Reviewed ()</a>
+                                        <a class="hover:underline" href="{{ route('admin.call_for_proposals.results',['call_for_proposal' => $call_for_proposal->id]) }}">Results</a>
                                     </div>
                                 </div>
                             </td>
                             <td class="py-8">{{ \Carbon\Carbon::parse($call_for_proposal->open_date)->format('M d, Y') }} - {{ \Carbon\Carbon::parse($call_for_proposal->close_date)->format('M d, Y') }}</td>
                             <td class="py-8">
-                                @if (\Carbon\Carbon::now()->between(\Carbon\Carbon::parse($call_for_proposal->open_date), \Carbon\Carbon::parse($call_for_proposal->close_date)))
-                                    <span class="text-green-600 font-semibold">Open</span>
-                                @else
-                                    <span class="text-red-600 font-semibold">Closed</span>                  
-                                @endif              
+                                @php $status = $call_for_proposal->computed_status; @endphp
+                                <span class="font-semibold @if($status === 'Open') text-green-600 @elseif($status === 'Upcoming') text-blue-600 @else text-gray-500 @endif">{{ $status }}</span>
                             </td>                      
                             <td class="text-center py-2">              
-                                <div>              
+                                <div class="flex flex-row gap-x-1 justify-center">              
                                      <a href="{{ route('admin.call_for_proposals.edit',['call_for_proposal' => $call_for_proposal->id]) }}" class="hover:bg-blue-600 border bg-blue-500 text-white py-2 px-2 text-xs rounded-md">Edit</a> 
-                                     <a href="#" class="hover:bg-red-600 border bg-red-500 text-white py-2 px-2 text-xs rounded-md">Delete</a>    
+                                     <form action="{{ route('admin.call_for_proposals.destroy',['call_for_proposal' => $call_for_proposal->id]) }}" method="POST" onsubmit="return confirm('Delete this call for proposal? This cannot be undone.');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="hover:bg-red-600 border bg-red-500 text-white py-2 px-2 text-xs rounded-md">Delete</button>
+                                     </form>
                                 </div>                 
                             </td>                      
                         </tr>                  
